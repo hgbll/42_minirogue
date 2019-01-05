@@ -5,20 +5,21 @@ class Hero:
        self.hp = 12 + (lvl * 2)
        self.str = (12 + lvl) / 2
        self.max_hp = 12 + (lvl * 2)
-       self.str = 12 + lvl
-       self.max_str = 12 + lvl
+       self.max_str = (12 + lvl) / 2
        self.armor = 0
        self.x = x
        self.y = y
        self.xp = 0
        self.lvl = lvl
-       self.hunger = 200
+       self.next_lvl = 10
+       self.hunger = 500
        self.accuracy = 5 + lvl
        self.defense = 10 + lvl/2
        self.damage = 0
        self.combat_status = ""
        self.inventory = []
        self.weak = False
+       self.weapon = 0
     
     def attack(self,enemy):
         if ((randint(0,20) + self.accuracy) > enemy.defense):
@@ -31,12 +32,27 @@ class Hero:
             self.combat_status = "you miss " + enemy.name
         if (enemy.hp <= 0):
             self.combat_status += " | Defeate " + enemy.name
+    
+    def update(self):
+        if (self.xp >= self.next_lvl):
+            self.max_hp += 3
+            self.hp = self.max_hp
+            self.max_str += 1
+            self.str = self.max_str
+            self.lvl += 1
+            self.xp = self.xp - self.next_lvl
+            self.next_lvl = 10 + self.lvl
+            
+			
+			
+
 enemy_list = [
-    { "name": "Bat", "hp": 16, "str":8,"armor":0,"symbol": "B","acc": 4,"def": 8 },
-    { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7 },
-    { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9 },
-    { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11 },
+    { "name": "Bat", "hp": 16, "str":8,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 6, "exp": 8},
+    { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 6, "exp": 8 },
+    { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9,"range" : 6, "exp": 6 },
+    { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 6, "exp": 10 },
 ]
+free_tiles = ['.', '#', '+']
 
 class Enemy:
     def __init__(self,x,y,lvl,index):
@@ -51,8 +67,11 @@ class Enemy:
        self.accuracy = enemy_list[index]["acc"] + lvl
        self.defense = enemy_list[index]["def"] + lvl/2
        self.combat_status = ""
-       self.pursuit = False
+       self.pursuit_status = False
        self.mouvement = 1
+       self.detection_range = enemy_list[index]["range"]
+       self.can_attack = False
+       self.exp = enemy_list[index]["exp"] * lvl
     
     def attack(self,hero):
         if ((randint(0,20) + self.accuracy) > hero.defense):
@@ -65,19 +84,31 @@ class Enemy:
             self.combat_status =  self.name + " miss you"
     
     def pursuit(self,hero):
-        if(actions_function.get_distance(self,hero) > 10):
-            self.pursuit = True
+        if actions_function.get_distance(self,hero) < self.detection_range:
+            self.pursuit_status = True
 
-    def move(self,hero):
-        if (self.x > hero.x + 1):
-            self.x = self.x - self.mouvement;
-        elif (self.x < hero.x - 1):
-            self.x = self.x + self.mouvement;
-        if (self.y > hero.y + 1):
-            self.y = self.y - self.mouvement;
-        elif (self.y < hero.y - 1):
-            self.y = self.y + self.mouvement;
-        
+    def move(self,hero, level):
+        if self.pursuit_status == True and actions_function.get_distance(self,hero) > 1.5:
+            if self.x > hero.x and level[self.y][self.x - self.mouvement] in free_tiles:
+                self.x = self.x - self.mouvement
+            elif (self.x < hero.x and level[self.y][self.x + self.mouvement] in free_tiles):
+                self.x = self.x + self.mouvement
+            if (self.y > hero.y and level[self.y - self.mouvement][self.x] in free_tiles):
+                self.y = self.y - self.mouvement
+            elif (self.y < hero.y and level[self.y + self.mouvement][self.x] in free_tiles):
+                self.y = self.y + self.mouvement
+
+    def update(self, hero, level):
+        #if self.hp <= 0:
+        #    self.symbol = '.'
+        #    return
+        if actions_function.get_distance(self,hero) < 2:
+            self.can_attack = True
+        else:
+            self.can_attack = False
+        self.pursuit(hero)
+        self.move(hero, level)
+
 """
 
 p1 = Hero(0,30,2)

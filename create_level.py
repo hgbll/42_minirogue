@@ -82,6 +82,3 @@ def create_level():
     level.append("    |...+#################### -----------                  |.............|      ")
     level.append("    -----                                                  ---------------      ")
     return level
-"""
-
-
