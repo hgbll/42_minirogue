@@ -1,6 +1,8 @@
 import curses
+import objects
 
 def update_monsters_pos(game):
+
     return (1)
 
 def update_player_pos(game, key):
@@ -45,6 +47,28 @@ def update_player_pos(game, key):
             game.hero.x += 1
             update_monsters_pos(game)
     
-def update(game, key):
-    update_player_pos(game, key)
+def handle_item(game, item):
 
+    if isinstance(item, objects.Treasure):
+        game.gold += item.value
+        game.title = "you found {} gold pieces".format(item.value)
+    else:
+        game.hero.inventory.append(item)
+        game.title = "you picked up " + item.description
+
+def check_items(game):
+
+    new_list = []
+    for item in game.items:
+        if item.x == game.hero.x and item.y == game.hero.y:
+            handle_item(game, item)
+        else:
+            new_list.append(item)
+
+    game.items = new_list
+
+def update(game, key):
+
+    update_player_pos(game, key)
+    check_items(game)
+    game.hero.hunger -= 1
