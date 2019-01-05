@@ -6,6 +6,10 @@ def draw_level(stdscr, level):
         stdscr.addstr(i, 0, line)
         i += 1
 
+#def draw_items():
+
+#def draw_monsters():
+
 def draw(stdscr, game):
     height = 24
     width = 80
@@ -17,7 +21,7 @@ def draw(stdscr, game):
     stdscr.addstr(0, 0, title)
     draw_level(stdscr, game.level)
     stdscr.addstr(height-1, 0, statusbarstr)
-
+    stdscr.addstr(game.hero.x, game.hero.y, "@")
     stdscr.move(game.hero.x, game.hero.y)
-
+    
     stdscr.refresh()

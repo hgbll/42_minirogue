@@ -2,11 +2,12 @@ import sys,os
 import curses
 import create_level
 import draw
+import hero
 
 class Game:
     def __init__(self):
         #self.monsters = [Monster(2,3,'B')]
-        #self.hero = Hero()
+        self.hero = hero.Hero(0,0,1)
         self.level_num = 1
         self.gold = 0
         self.title = ""
