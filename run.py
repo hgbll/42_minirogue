@@ -7,8 +7,8 @@ import update
 
 class Game:
     def __init__(self):
-        #self.monsters = [Monster(2,3,'B')]
-        self.hero = hero.Hero(21,65,1)
+        self.monsters = [hero.Enemy(65,20,1,0)]
+        self.hero = hero.Hero(65,21,1)
         self.level_num = 1
         self.gold = 0
         self.title = ""
