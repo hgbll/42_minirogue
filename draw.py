@@ -13,8 +13,8 @@ def draw_status(stdscr, game, height, width):
 
 def draw_hero(stdscr, game):
 
-    stdscr.addstr(game.hero.y, game.hero.x, "@")
-    stdscr.move(game.hero.y, game.hero.x)
+    stdscr.addstr(game.hero.y + 1, game.hero.x, "@")
+    stdscr.move(game.hero.y + 1, game.hero.x)
 
 def draw_level(stdscr, game):
 
@@ -31,7 +31,7 @@ def draw_items(stdscr, items):
 def draw_monsters(stdscr, game):
 
     for monster in game.monsters:
-        stdscr.addstr(monster.y, monster.x, monster.symbol)
+        stdscr.addstr(monster.y + 1, monster.x, monster.symbol)
 
 def draw(stdscr, game):
 

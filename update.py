@@ -16,7 +16,7 @@ def update_player_pos(game, key):
             if monster.x == game.hero.x and monster.y == game.hero.y - 1:
                 #fight
                 return
-        if game.level[game.hero.y - 2][game.hero.x] in free_tiles:
+        if game.level[game.hero.y - 1][game.hero.x] in free_tiles:
             game.hero.y -= 1
             update_monsters_pos(game)
 
@@ -25,7 +25,7 @@ def update_player_pos(game, key):
             if monster.x == game.hero.x and monster.y == game.hero.y + 1:
                 #fight
                 return
-        if game.level[game.hero.y][game.hero.x] in free_tiles:
+        if game.level[game.hero.y + 1][game.hero.x] in free_tiles:
             game.hero.y += 1
             update_monsters_pos(game)
 
@@ -34,7 +34,7 @@ def update_player_pos(game, key):
             if monster.x == game.hero.x - 1 and monster.y == game.hero.y:
                 #fight
                 return
-        if game.level[game.hero.y - 1][game.hero.x - 1] in free_tiles:
+        if game.level[game.hero.y][game.hero.x - 1] in free_tiles:
             game.hero.x -= 1
             update_monsters_pos(game)
 
@@ -43,7 +43,7 @@ def update_player_pos(game, key):
             if monster.x == game.hero.x + 1 and monster.y == game.hero.y:
                 #fight
                 return
-        if game.level[game.hero.y - 1][game.hero.x + 1] in free_tiles:
+        if game.level[game.hero.y][game.hero.x + 1] in free_tiles:
             game.hero.x += 1
             update_monsters_pos(game)
     
