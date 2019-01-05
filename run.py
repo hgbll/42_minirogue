@@ -8,7 +8,7 @@ import objects
 
 class Game:
     def __init__(self):
-        self.monsters = [hero.Enemy(65,20,1,0)]
+        self.monsters = [hero.Enemy(3,15,1,0)]
         self.hero = hero.Hero(65,21,1)
         self.items = [objects.Treasure(11, 2), objects.Food(33, 20)]
         self.level_num = 1

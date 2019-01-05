@@ -77,9 +77,6 @@ class Enemy:
         elif (self.y < hero.y - 1):
             self.y = self.y + self.mouvement;
         
-        
-
-
 """
 
 p1 = Hero(0,30,2)
