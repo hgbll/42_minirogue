@@ -5,7 +5,7 @@ def draw_msg(stdscr, game, height, width):
     stdscr.addstr(0, 0, game.title)
 
 def draw_status(stdscr, game, height, width):
-    statusbarstr = "Level:{}  Gold: {}  Hp: {}({})  Str: {}({})  Arm: {}   Exp: {}/10".format(game.level_num, game.gold, game.hero.hp, game.hero.max_hp, game.hero.str, game.hero.max_str, game.hero.armor, game.hero.xp)
+    statusbarstr = "Level:{}  Gold: {}  Hp: {}({})  Str: {}({})  Arm: {}   Exp: {}/10".format(game.level_num, game.gold, game.hero.hp, game.hero.max_hp, game.hero.str + game.hero.weapon, game.hero.max_str + game.hero.weapon, game.hero.armor, game.hero.xp)
     stdscr.addstr(height - 1, 0, statusbarstr)
 
 def draw_hero(stdscr, game):
@@ -35,6 +35,15 @@ def add_fog(stdscr, game):
         for x, t in enumerate(line):
             if t: stdscr.addstr(y + 1, x, " ")
 
+def draw_end(stdscr, game):
+    stdscr.clear()
+    stdscr.addstr(0, 0, "you quit at level {} with {} gold pieces :(".format(game.level_num, game.gold))
+
+    stdscr.addstr(24, 0, "PRESS SPACE TO END")
+    while ord(' ') != stdscr.getch():
+        pass
+
+
 def draw(stdscr, game):
 
     height = 24
@@ -56,10 +65,8 @@ def draw(stdscr, game):
 def draw_list(stdscr, list_to_print):
     stdscr.clear()
     
-    for i, item in enumerate(list_to_print):
-        stdscr.addstr(i, 1, item) 
+    for i, item in enumerate(list_to_print[:22]):
+        stdscr.addstr(i, 1, item)
 
-
-    stdscr.addstr(24, 0, "PRESS SPACE TO CONTINUE")
-    while ord(' ') != stdscr.getch():
-        pass
+    for i, item in enumerate(list_to_print[22:]):
+        stdscr.addstr(i, 40, item)

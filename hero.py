@@ -5,8 +5,7 @@ class Hero:
        self.hp = 12 + (lvl * 2)
        self.str = (12 + lvl) / 2
        self.max_hp = 12 + (lvl * 2)
-       self.str = 12 + lvl
-       self.max_str = 12 + lvl
+       self.max_str = (12 + lvl) / 2
        self.armor = 0
        self.x = x
        self.y = y
@@ -19,6 +18,7 @@ class Hero:
        self.combat_status = ""
        self.inventory = []
        self.weak = False
+       self.weapon = 0
     
     def attack(self,enemy):
         if ((randint(0,20) + self.accuracy) > enemy.defense):
