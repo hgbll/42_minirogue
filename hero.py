@@ -47,7 +47,7 @@ class Hero:
 			
 
 enemy_list = [
-    { "name": "Bat", "hp": 16, "str":8,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 6, "exp": 12},
+    { "name": "Bat", "hp": 16, "str":8,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 6, "exp": 8},
     { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 6, "exp": 8 },
     { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9,"range" : 6, "exp": 6 },
     { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 6, "exp": 10 },
