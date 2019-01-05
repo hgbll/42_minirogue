@@ -36,6 +36,7 @@ enemy_list = [
     { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9 },
     { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11 },
 ]
+free_tiles = ['.', '#', '+']
 
 class Enemy:
     def __init__(self,x,y,lvl,index):
@@ -67,16 +68,19 @@ class Enemy:
         if(actions_function.get_distance(self,hero) > 10):
             self.pursuit = True
 
-    def move(self,hero):
-        if (self.x > hero.x + 1):
-            self.x = self.x - self.mouvement;
-        elif (self.x < hero.x - 1):
-            self.x = self.x + self.mouvement;
-        if (self.y > hero.y + 1):
-            self.y = self.y - self.mouvement;
-        elif (self.y < hero.y - 1):
-            self.y = self.y + self.mouvement;
+    def move(self,hero, level):
+        if (level[self.y][self.x - self.mouvement] in free_tiles):
+            self.x = self.x - self.mouvement
+        elif (level[self.y][self.x + self.mouvement] in free_tiles):
+            self.x = self.x + self.mouvement
+        if (level[self.y - self.mouvement * 2][self.x] in free_tiles):
+            self.y = self.y - self.mouvement
+        elif (level[self.y][self.x] in free_tiles):
+            self.y = self.y + self.mouvement
         
+        
+
+
 """
 
 p1 = Hero(0,30,2)
