@@ -2,8 +2,8 @@ import curses
 import objects
 
 def update_monsters_pos(game):
-
-    return (1)
+    for monster in game.monsters:
+        monster.move(game.hero)
 
 def update_player_pos(game, key):
 

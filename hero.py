@@ -73,7 +73,9 @@ class Enemy:
         elif (self.y < hero.y):
             self.y = self.y + self.mouvement;
         
-        
+
+"""
+
 p1 = Hero(0,30,2)
 p2 = Enemy(0,0,1,3)
 
@@ -82,8 +84,6 @@ while (p1.x != p2.x or p1.y != p2.y):
     p2.move(p1)
     print("p2 x :"+ str(p2.x))
     print("p2 y :"+ str(p2.y))
-
-"""
 while (p1.hp > 0 and p2.hp > 0):
     
     print(p1.hp)
