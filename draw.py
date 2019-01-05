@@ -39,7 +39,7 @@ def draw_end(stdscr, game):
     stdscr.clear()
     stdscr.addstr(0, 0, "you quit at level {} with {} gold pieces :(".format(game.level_num, game.gold))
 
-    stdscr.addstr(24, 0, "PRESS SPACE TO END")
+    stdscr.addstr(23, 0, "PRESS SPACE TO END")
     while ord(' ') != stdscr.getch():
         pass
 
@@ -70,3 +70,4 @@ def draw_list(stdscr, list_to_print):
 
     for i, item in enumerate(list_to_print[22:]):
         stdscr.addstr(i, 40, item)
+

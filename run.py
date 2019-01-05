@@ -9,17 +9,17 @@ import commands
 
 class Game:
     def __init__(self):
-        self.monsters = [hero.Enemy(3,15,1,0)]
+        self.monsters = [hero.Enemy(30,19,1,0)]
         self.hero = hero.Hero(65,19,1)
         self.items = [objects.Treasure(11, 2), objects.Food(33, 19), objects.Armor(60, 11, 1), objects.Armor(63, 11, 3), objects.Weapon(65, 20, 1), objects.Weapon(63, 20, 3)]
         self.level_num = 1
         self.gold = 0
         self.title = ""
         self.level = create_level.create_level()
-        self.hidden = [[True] * 80 for i in range(22)]
+        self.hidden = [[False] * 80 for i in range(22)]
 
 def wait_with_space(stdscr):
-    stdscr.addstr(24, 0, "-- press space to continue --")
+    stdscr.addstr(23, 0, "-- press space to continue --")
     while ord(' ') != stdscr.getch():
         pass
 
@@ -50,7 +50,7 @@ def other_keys(stdscr, key, game):
             game.title = "you have no weapons in your inventory"
         else:
             draw.draw_list(stdscr, [ chr(ord('a') + i)+") " + item.description for i, item in enumerate(items)])
-            stdscr.addstr(24, 0, "-- select a weapon to equip --")
+            stdscr.addstr(23, 0, "-- select a weapon to equip --")
             k = 0
             while not ord('a') <= k < ord('a') + len(items):
                 k = stdscr.getch()
@@ -62,7 +62,7 @@ def other_keys(stdscr, key, game):
             game.title = "you have no armor in your inventory"
         else:
             draw.draw_list(stdscr, [ chr(ord('a') + i)+") " + item.description for i, item in enumerate(items)])
-            stdscr.addstr(24, 0, "-- select an armor to equip --")
+            stdscr.addstr(23, 0, "-- select an armor to equip --")
             k = 0
             while not ord('a') <= k < ord('a') + len(items):
                 k = stdscr.getch()
