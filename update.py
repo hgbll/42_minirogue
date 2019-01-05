@@ -10,6 +10,7 @@ def update_player_pos(game, key):
     free_tiles = ['.', '#', '+']
     x = game.hero.x
     y = game.hero.y
+    game.hero.update()
 
     if key == curses.KEY_UP:
         for monster in game.monsters:
@@ -80,6 +81,7 @@ def fight(hero,enemy,game):
         enemy.attack(hero)
         game.title = enemy.combat_status
     else :
+        hero.xp += enemy.exp
         game.monsters.remove(enemy)
 
 def update(game, key):

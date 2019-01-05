@@ -5,7 +5,7 @@ def draw_msg(stdscr, game, height, width):
     stdscr.addstr(0, 0, game.title)
 
 def draw_status(stdscr, game, height, width):
-    statusbarstr = "Level:{}  Gold: {}  Hp: {}({})  Str: {}({})  Arm: {}   Exp: {}/10".format(game.level_num, game.gold, game.hero.hp, game.hero.max_hp, game.hero.str, game.hero.max_str, game.hero.armor, game.hero.xp)
+    statusbarstr = "Level:{}  Gold: {}  Hp: {}({})  Str: {}({})  Arm: {}   Exp: {}/{}".format(game.level_num, game.gold, game.hero.hp, game.hero.max_hp, game.hero.str, game.hero.max_str, game.hero.armor, game.hero.xp, game.hero.next_lvl)
     stdscr.addstr(height - 1, 0, statusbarstr)
 
 def draw_hero(stdscr, game):

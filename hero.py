@@ -12,6 +12,7 @@ class Hero:
        self.y = y
        self.xp = 0
        self.lvl = lvl
+       self.next_lvl = 10
        self.hunger = 500
        self.accuracy = 5 + lvl
        self.defense = 10 + lvl/2
@@ -30,11 +31,25 @@ class Hero:
             self.combat_status = "you miss " + enemy.name
         if (enemy.hp <= 0):
             self.combat_status += " | Defeate " + enemy.name
+    
+    def update(self):
+        if (self.xp >= self.next_lvl):
+            self.max_hp += 3
+            self.hp = self.max_hp
+            self.max_str += 1
+            self.str = self.max_str
+            self.lvl += 1
+            self.xp = self.xp - self.next_lvl
+            self.next_lvl = 10 + self.lvl
+            
+			
+			
+
 enemy_list = [
-    { "name": "Bat", "hp": 16, "str":8,"armor":0,"symbol": "B","acc": 4,"def": 8 },
-    { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7 },
-    { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9 },
-    { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11 },
+    { "name": "Bat", "hp": 16, "str":8,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 6, "exp": 12},
+    { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 6, "exp": 8 },
+    { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9,"range" : 6, "exp": 6 },
+    { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 6, "exp": 10 },
 ]
 free_tiles = ['.', '#', '+']
 
@@ -53,8 +68,9 @@ class Enemy:
        self.combat_status = ""
        self.pursuit_status = False
        self.mouvement = 1
-       self.detection_range = 6
+       self.detection_range = enemy_list[index]["range"]
        self.can_attack = False
+       self.exp = enemy_list[index]["exp"] * lvl
     
     def attack(self,hero):
         if ((randint(0,20) + self.accuracy) > hero.defense):
