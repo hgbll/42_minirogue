@@ -4,6 +4,9 @@ class Hero:
     def __init__(self,x,y,lvl):
        self.hp = 12 + (lvl * 2)
        self.str = (12 + lvl) / 2
+       self.max_hp = 12 + (lvl * 2)
+       self.str = 12 + lvl
+       self.max_str = 12 + lvl
        self.armor = 0
        self.x = x
        self.y = y
@@ -14,6 +17,7 @@ class Hero:
        self.defense = 10 + lvl/2
        self.damage = 0
        self.combat_status = ""
+       self.inventory = []
     
     def attack(self,enemy):
         if ((randint(0,20) + self.accuracy) > enemy.defense):
@@ -64,13 +68,13 @@ class Enemy:
             self.pursuit = True
 
     def move(self,hero):
-        if (self.x > hero.x):
+        if (self.x > hero.x + 1):
             self.x = self.x - self.mouvement;
-        elif (self.x < hero.x):
+        elif (self.x < hero.x - 1):
             self.x = self.x + self.mouvement;
-        if (self.y > hero.y):
+        if (self.y > hero.y + 1):
             self.y = self.y - self.mouvement;
-        elif (self.y < hero.y):
+        elif (self.y < hero.y - 1):
             self.y = self.y + self.mouvement;
         
         
