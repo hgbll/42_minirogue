@@ -7,6 +7,7 @@ class Game:
     def __init__(self):
         #self.monsters = [Monster(2,3,'B')]
         #self.hero = Hero()
+        self.items = [Treasure(1, 11), Food(3, 60)]
         self.level_num = 1
         self.gold = 0
         self.title = ""
