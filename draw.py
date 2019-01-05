@@ -21,7 +21,7 @@ def draw(stdscr, game):
     stdscr.addstr(0, 0, title)
     draw_level(stdscr, game.level)
     stdscr.addstr(height-1, 0, statusbarstr)
-    stdscr.addstr(game.hero.x, game.hero.y, "@")
-    stdscr.move(game.hero.x, game.hero.y)
+    stdscr.addstr(game.hero.y, game.hero.x, "@")
+    stdscr.move(game.hero.y, game.hero.x)
     
     stdscr.refresh()

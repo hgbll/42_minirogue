@@ -3,11 +3,12 @@ import curses
 import create_level
 import draw
 import hero
+import update
 
 class Game:
     def __init__(self):
         #self.monsters = [Monster(2,3,'B')]
-        self.hero = hero.Hero(0,0,1)
+        self.hero = hero.Hero(21,65,1)
         self.level_num = 1
         self.gold = 0
         self.title = ""
@@ -30,7 +31,7 @@ def run(stdscr):
     while True:
         #if not options(key)
         options(stdscr, key, game)
-        #update(game, key)
+        update.update(game, key)
         draw.draw(stdscr, game)
 
         key = stdscr.getch()
