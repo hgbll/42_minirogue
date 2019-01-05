@@ -3,7 +3,7 @@ import objects
 
 def update_monsters_pos(game):
     for monster in game.monsters:
-        monster.move(game.hero, game.level)
+        monster.update(game.hero, game.level)
 
 def update_player_pos(game, key):
 
@@ -14,7 +14,7 @@ def update_player_pos(game, key):
     if key == curses.KEY_UP:
         for monster in game.monsters:
             if monster.x == game.hero.x and monster.y == game.hero.y - 1:
-                #fight
+                fight(game.hero,monster, game)
                 return
         if game.level[game.hero.y - 1][game.hero.x] in free_tiles:
             game.hero.y -= 1
@@ -23,7 +23,7 @@ def update_player_pos(game, key):
     if key == curses.KEY_DOWN:
         for monster in game.monsters:
             if monster.x == game.hero.x and monster.y == game.hero.y + 1:
-                #fight
+                fight(game.hero,monster, game)
                 return
         if game.level[game.hero.y + 1][game.hero.x] in free_tiles:
             game.hero.y += 1
@@ -32,7 +32,7 @@ def update_player_pos(game, key):
     if key == curses.KEY_LEFT:
         for monster in game.monsters:
             if monster.x == game.hero.x - 1 and monster.y == game.hero.y:
-                #fight
+                fight(game.hero,monster, game)
                 return
         if game.level[game.hero.y][game.hero.x - 1] in free_tiles:
             game.hero.x -= 1
@@ -41,7 +41,7 @@ def update_player_pos(game, key):
     if key == curses.KEY_RIGHT:
         for monster in game.monsters:
             if monster.x == game.hero.x + 1 and monster.y == game.hero.y:
-                #fight
+                fight(game.hero,monster, game)
                 return
         if game.level[game.hero.y][game.hero.x + 1] in free_tiles:
             game.hero.x += 1
@@ -72,6 +72,15 @@ def lift_fog(game):
         for x in range(-1,2):
             if 0 <= game.hero.y + y < 22 and 0 <= game.hero.x + x < 80:
                 game.hidden[game.hero.y + y][game.hero.x + x] = False
+
+def fight(hero,enemy,game):
+    hero.attack(enemy)
+    game.title = hero.combat_status
+    if enemy.hp > 0:
+        enemy.attack(hero)
+        game.title = enemy.combat_status
+    else :
+        game.monsters.remove(enemy)
 
 def update(game, key):
 

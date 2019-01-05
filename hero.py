@@ -54,6 +54,7 @@ class Enemy:
        self.pursuit_status = False
        self.mouvement = 1
        self.detection_range = 6
+       self.can_attack = False
     
     def attack(self,hero):
         if ((randint(0,20) + self.accuracy) > hero.defense):
@@ -70,7 +71,6 @@ class Enemy:
             self.pursuit_status = True
 
     def move(self,hero, level):
-        self.pursuit(hero)
         if self.pursuit_status == True and actions_function.get_distance(self,hero) > 1.5:
             if self.x > hero.x and level[self.y][self.x - self.mouvement] in free_tiles:
                 self.x = self.x - self.mouvement
@@ -80,8 +80,17 @@ class Enemy:
                 self.y = self.y - self.mouvement
             elif (self.y < hero.y and level[self.y + self.mouvement][self.x] in free_tiles):
                 self.y = self.y + self.mouvement
-        
-        
+
+    def update(self, hero, level):
+        #if self.hp <= 0:
+        #    self.symbol = '.'
+        #    return
+        if actions_function.get_distance(self,hero) < 2:
+            self.can_attack = True
+        else:
+            self.can_attack = False
+        self.pursuit(hero)
+        self.move(hero, level)
 
 """
 
