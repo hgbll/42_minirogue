@@ -14,10 +14,10 @@ def draw(stdscr, game):
     title = game.title
     statusbarstr = "test"#"Level:{}  Gold:{}     Hp: {}({})  Str: 16(16)  Arm: 4   Exp: 1/0".format(game.level, game.gold, game.hero.hp)
 
-    draw_level(stdscr, game.level)
-
     stdscr.addstr(0, 0, title)
+    draw_level(stdscr, game.level)
     stdscr.addstr(height-1, 0, statusbarstr)
 
-    # Refresh the screen
+    stdscr.move(game.hero.x, game.hero.y)
+
     stdscr.refresh()
