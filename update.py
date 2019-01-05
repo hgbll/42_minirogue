@@ -67,8 +67,18 @@ def check_items(game):
 
     game.items = new_list
 
+def lift_fog(game):
+    for y in range(-1,2):
+        for x in range(-1,2):
+            if 0 <= game.hero.y + y < 22 and 0 <= game.hero.x + x < 80:
+                game.hidden[game.hero.y + y][game.hero.x + x] = False
+
 def update(game, key):
 
     update_player_pos(game, key)
+    lift_fog(game)
     check_items(game)
     game.hero.hunger -= 1
+    if game.hero.hunger < 100 and not game.hero.weak:
+        game.hero.str /= 2
+        game.hero.weak = True

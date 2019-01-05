@@ -1,5 +1,19 @@
 from random import randint
 
+armor_list = [
+    { "name": "a piece of leather", "value": 1},
+    { "name": "a well-made leather suit", "value": 2},
+    { "name": "some metal scraps", "value": 3},
+    { "name": "a rusty plate armor", "value": 6},
+]
+
+weapon_list = [
+    { "name": "a piece of stone", "value": 1},
+    { "name": "a wodden sword", "value": 2},
+    { "name": "a couple of arrows", "value": 3},
+    { "name": "a rotten axe", "value": 6},
+]
+
 class Item:
 	def __init__(self, x, y):
 		self.x = x
@@ -19,8 +33,15 @@ class Food(Item):
 		self.description = "some food"
 
 class Armor(Item):
-	def __init__(self, x, y, value):
+	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
-		self.value = value
+		self.value = armor_list[index]["value"]
 		self.sym = "]"
-		self.description = "a piece of leather"
+		self.description = armor_list[index]["name"]
+
+class Weapon(Item):
+	def __init__(self, x, y, index):
+		Item.__init__(self, x, y)
+		self.value = weapon_list[index]["value"]
+		self.sym = ")"
+		self.description = weapon_list[index]["name"]

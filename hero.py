@@ -11,12 +11,13 @@ class Hero:
        self.y = y
        self.xp = 0
        self.lvl = lvl
-       self.hunger = 500
+       self.hunger = 200
        self.accuracy = 5 + lvl
        self.defense = 10 + lvl/2
        self.damage = 0
        self.combat_status = ""
        self.inventory = []
+       self.weak = False
     
     def attack(self,enemy):
         if ((randint(0,20) + self.accuracy) > enemy.defense):
