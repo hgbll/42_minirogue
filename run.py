@@ -9,7 +9,7 @@ import commands
 
 class Game:
     def __init__(self):
-        self.monsters = [hero.Enemy(30,19,1,0)]
+        self.monsters = [hero.Enemy(30,19,1,0),hero.Enemy(65,9,1,2)]
         self.hero = hero.Hero(65,19,1)
         self.items = [objects.Treasure(11, 2), objects.Food(33, 19), objects.Armor(60, 11, 1), objects.Armor(63, 11, 3), objects.Weapon(65, 20, 1), objects.Weapon(63, 20, 3)]
         self.level_num = 1
