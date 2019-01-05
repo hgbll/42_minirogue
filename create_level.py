@@ -47,3 +47,7 @@ def create_level():
                 get_char(i, j, k, rooms, level)
 
     return [''.join(i) for i in level]
+
+level = create_level()
+for line in level:
+    print line

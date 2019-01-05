@@ -53,8 +53,8 @@ def draw(stdscr, game):
     draw_msg(stdscr, game, height, width)
     draw_status(stdscr, game, height, width)
     draw_level(stdscr, game)
-    draw_monsters(stdscr, game)
     draw_items(stdscr, game.items)
+    draw_monsters(stdscr, game)
     add_fog(stdscr, game)
     draw_hero(stdscr, game)
 
