@@ -1,6 +1,5 @@
 from random import randint
 
-"""
 class Room:
 
     def __init__(self, zone):
@@ -47,38 +46,4 @@ def create_level():
             for k in range (0, 80):
                 get_char(i, j, k, rooms, level)
 
-    for room in rooms:
-        print "anchor x = " + str(room.anchor_x)
-        print "anchor y = " + str(room.anchor_y)
-        print "width = " + str(room.width)
-        print "height = " + str(room.height)
-
     return [''.join(i) for i in level]
-
-"""
-
-def create_level():
-    level = []
-    level.append("     ----------------         ------------                --------              ")
-    level.append("     |..............+#########+..........|            ####+......|              ")
-    level.append("     |..............|         |..........+#############   |......|              ")
-    level.append("     ------------+---         -------+----                --------              ")
-    level.append("                 #                   #                                          ")
-    level.append("                 #                   #############                              ")
-    level.append("      ############                               #                              ")
-    level.append("      #                                          #         --------------       ")
-    level.append("      #                      ########################      |............|       ")
-    level.append("  ----+------                #                   #  #      |............|       ")
-    level.append("  |.........|                #        ############  #######+............|       ")
-    level.append("  |.........|                #        #                    |............|       ")
-    level.append("  |.........+#################        #                    |............|       ")
-    level.append("  -----------                         #                    ---+----------       ")
-    level.append("                                      #                       #                 ")
-    level.append("                                      #                       #######           ")
-    level.append("                                      #                             #           ")
-    level.append("                              --------+--                           #           ")
-    level.append("    -----                     |.........+##########        ---------+-----      ")
-    level.append("    |...|                   ##+.........|         #########+.............|      ")
-    level.append("    |...+#################### -----------                  |.............|      ")
-    level.append("    -----                                                  ---------------      ")
-    return level
