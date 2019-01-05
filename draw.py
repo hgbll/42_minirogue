@@ -5,14 +5,13 @@ def draw_msg(stdscr, game, height, width):
     stdscr.addstr(0, 0, game.title)
 
 def draw_status(stdscr, game, height, width):
-
     statusbarstr = "Level:{}  Gold: {}  Hp: {}({})  Str: {}({})  Arm: {}   Exp: {}/10".format(game.level_num, game.gold, game.hero.hp, game.hero.max_hp, game.hero.str, game.hero.max_str, game.hero.armor, game.hero.xp)
     stdscr.addstr(height - 1, 0, statusbarstr)
 
 def draw_hero(stdscr, game):
 
-    stdscr.addstr(game.hero.y, game.hero.x, "@")
-    stdscr.move(game.hero.y, game.hero.x)
+    stdscr.addstr(game.hero.y + 1, game.hero.x, "@")
+    stdscr.move(game.hero.y + 1, game.hero.x)
 
 def draw_level(stdscr, game):
 
@@ -24,12 +23,12 @@ def draw_level(stdscr, game):
 def draw_items(stdscr, items):
 
     for item in items:
-        stdscr.addstr(item.y, item.x, item.sym)
+        stdscr.addstr(item.y + 1, item.x, item.sym)
 
 def draw_monsters(stdscr, game):
 
     for monster in game.monsters:
-        stdscr.addstr(monster.y, monster.x, monster.symbol)
+        stdscr.addstr(monster.y + 1, monster.x, monster.symbol)
 
 def add_fog(stdscr, game):
     for y, line in enumerate(game.hidden):
