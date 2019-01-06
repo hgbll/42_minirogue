@@ -130,16 +130,10 @@ class Enemy:
         self.move(hero, game.level)
 
     def get_room_index(self, game):
-        index = 0
-        for room in game.rooms:
+        for i, room in enumerate(game.rooms):
             if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
-<<<<<<< HEAD
-                return (rooms.index(room))
-=======
-                return (index)
-            else:
-                index += 1
->>>>>>> 874cc6d67273834352eb7c808c85d0c5a100d3eb
+                return i
+        return -1
 
     def hero_in_room(self, hero, game):
         if self.get_room_index(game) == hero.get_room_index(game):
