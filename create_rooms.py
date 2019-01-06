@@ -10,7 +10,7 @@ class Room:
         self.anchor_x = right_border - (6 + randint(0, 19))
         self.anchor_y = bottom_border - (5 + randint(0, 1) + (1 if zone / 3 == 2 else 0))
 
-        bigger = 1 if randint(0, 100) <= 75 else 0
+        bigger = 1 if randint(0, 100) <= 90 else 0
         self.width = randint(3 + bigger, 3 + bigger + (right_border - self.anchor_x - 6))
         self.height = randint(3 + bigger, 3 + bigger + (bottom_border - self.anchor_y - 5))
 

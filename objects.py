@@ -14,20 +14,26 @@ armor_list = [
     { "name": "a piece of leather", "value": 1},
     { "name": "a well-made leather suit", "value": 2},
     { "name": "some metal scraps", "value": 3},
-    { "name": "a rusty plate armor", "value": 6},
+    { "name": "a chainmail armor full of holes", "value": 5},
+    { "name": "a crumbling plate armor", "value": 7},
+    { "name": "a full body bronze suit", "value": 9}
 ]
 
 weapon_list = [
     { "name": "a piece of stone", "value": 1},
     { "name": "a wooden sword", "value": 2},
-    { "name": "a couple of arrows", "value": 3},
-    { "name": "a crumbling axe", "value": 6},
+    { "name": "a couple of throwing knives", "value": 3},
+    { "name": "a rusty axe", "value": 5},
+    { "name": "a balanced katana", "value": 8},
+    { "name": "a holy greatsword", "value": 10},
 ]
 
 potion_list = [
     { "name": "a simple red potion", "value": 1},
     { "name": "a magic potion", "value": 2},
-    { "name": "a transparent potion", "value": 3}
+    { "name": "a transparent potion", "value": 3},
+    { "name": "a lava's potion", "value": 4},
+    { "name": "a nice beer", "value": 5}, 
 ]
 
 
@@ -80,12 +86,16 @@ class Potion(Item):
 
 	def take_potion(self, game):
 		if self.value == 1:
-			game.hero.hp = min(game.hero.hp + 5, game.hero.max_hp)
+			game.hero.hp = min(game.hero.hp + 5 + 2* game.hero.lvl, game.hero.max_hp)
 		elif self.value == 2:
 			game.hero.xp = game.hero.next_lvl
 		elif self.value == 3:
 			game.hero.view_distance += 1
-
+		elif self.value == 4:
+			game.hero.defense += 3
+		elif self.value == 5:
+			game.hero.hp = game.hero.max_hp
+			game.hero.view_distance -= 1
 class Scroll(Item):
 	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)

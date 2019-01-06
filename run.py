@@ -12,7 +12,7 @@ class Game:
     def __init__(self, stdscr, name):
         self.monsters = []
         self.hero = hero.Hero(0,0,1)
-        self.items = [objects.Potion(4,10,1)]
+        self.items = []
         self.level_num = 0
         self.gold = 0
         self.title = ""
@@ -39,12 +39,23 @@ def other_keys(stdscr, key, game):
         else:
             draw.draw_list(stdscr, [item.description for item in game.hero.inventory])
             wait_with_space(stdscr)
+    elif key == ord('d'):
+        if len(game.hero.inventory) == 0:
+            game.title = "you have nothing in your inventory"
+        else:
+            draw.draw_list(stdscr, [ chr(ord('a') + i)+") " + item.description for i, item in enumerate(game.hero.inventory)])
+            stdscr.addstr(23, 0, "-- select an item to drop --")
+            k = 0
+            while not ord('a') <= k < ord('a') + len(game.hero.inventory):
+                k = stdscr.getch()
+            game.title = "you dropped " + game.hero.inventory[k - ord('a')].description
+            game.hero.inventory.remove(game.hero.inventory[k - ord('a')])
     elif key == ord('e'):
         food = [x for x in game.hero.inventory if isinstance(x, objects.Food)]
         if len(food) > 0:
             game.hero.hunger = 300
             game.hero.inventory.remove(food[0])
-            game.hero.hp = min(game.hero.hp + 1, game.hero.max_hp)
+            game.hero.hp = min(game.hero.hp + 2, game.hero.max_hp)
             game.hero.str = game.hero.max_str
             game.hero.weak = False
             game.title = "you ate some awful scraps and feel better now"
@@ -113,7 +124,6 @@ def other_keys(stdscr, key, game):
     elif key == ord('-'):
         game.hidden =  [[False] * 80 for i in range(22)]
         game.hero.hp = 1000
-        game.hero.hunger = 10000
     elif key in [ord('.'),ord('h'),ord('j'),ord('k'),ord('l'),curses.KEY_RIGHT,curses.KEY_LEFT,curses.KEY_UP,curses.KEY_DOWN, 0]:
         return 0
     return 1

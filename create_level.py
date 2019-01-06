@@ -21,8 +21,8 @@ def get_random_monsters(game, room, monster_count):
                         not_unique_pos = 1
                     if monster_x == game.hero.x and monster_y == game.hero.y:
                         not_unique_pos = 1
-            monster_level = randint(1, game.hero.lvl)
-            dice = (randint(0,len(hero.enemy_list)-1) + randint(0,len(hero.enemy_list)-1)) / 2
+            monster_level = randint(0, game.hero.lvl + game.level_num)
+            dice = (randint(0,len(hero.enemy_list)-1) + randint(0,game.level_num-1)) / 2
             coef =  max(0,(game.level_num%3) -1)
             monster_index = min(dice + coef,len(hero.enemy_list)-1)
             monsters.append(hero.Enemy(monster_x, monster_y, monster_level, monster_index))
@@ -48,10 +48,11 @@ def get_random_items(game, room, item_count, treasure_count):
                         not_unique_pos = 1
 
             if treasure_count:
-                if randint(0, 1):
-                    items.append(objects.Treasure(item_x, item_y))
-                else:
+                if randint(0, 2):
                     items.append(objects.Food(item_x,item_y,randint(0, len(objects.food_list) - 1)))
+                else:
+                    items.append(objects.Treasure(item_x, item_y))
+                    
                 treasure_count -= 1
             else:
                 item_type = objects.item_types[randint(0, len(objects.item_types) - 1)]
@@ -61,24 +62,24 @@ def get_random_items(game, room, item_count, treasure_count):
 
 def spawn_monsters(game):
 
-    elite_room = 4 if game.level_num >= 3 else 2
+    elite_room = 4 if game.level_num >= 5 else 2
 
     for room in game.rooms:
         d100 = randint(0, 100)
-        monster_count = (elite_room if d100 > 90 else 1) if d100 > 40 else 0
+        monster_count = (elite_room if d100 > 95 else 1) if d100 > 40 - 2*game.level_num else 0
         if monster_count:
             for monster in get_random_monsters(game, room, monster_count):
                 game.monsters.append(monster)
         
 def spawn_items(game):
     
-    treasure_room = 5 if game.level_num >= 2 else 2
+    treasure_room = 4 if game.level_num >= 5 else 2
 
     for room in game.rooms:
         d100 = randint(0, 100)
         item_count = (treasure_room if d100 > 95 else 1) if d100 > 60 else 0
         d100 = randint(0, 100)
-        treasure_count = (treasure_room if d100 > 95 else 1) if d100 > 50 else 0
+        treasure_count = (treasure_room if d100 > 95 else 1) if d100 > 30 else 0
         if item_count or treasure_count:
             for item in get_random_items(game, room, item_count, treasure_count):
                 game.items.append(item)
@@ -99,6 +100,7 @@ def place_hero(game):
                 not_unique_pos = 1
 
     game.hero.view_distance = 1
+    game.hero.defense = 10 + game.hero.lvl/2
 
 def check_valid_layout(rooms):
     

@@ -1,4 +1,5 @@
 import curses
+import game_over_screen
 
 def draw_msg(stdscr, game, height, width):
 
@@ -57,7 +58,7 @@ def draw(stdscr, game):
         add_fog(stdscr, game)
         draw_hero(stdscr, game)
     else :
-       game.level = game.game_over_screen
+       game.level = game_over_screen.game_over_screen(game)
        draw_level(stdscr, game)
 
     stdscr.refresh()
@@ -69,6 +70,6 @@ def draw_list(stdscr, list_to_print):
     for i, item in enumerate(list_to_print[:22]):
         stdscr.addstr(i, 1, item)
 
-    for i, item in enumerate(list_to_print[22:]):
+    for i, item in enumerate(list_to_print[22:44]):
         stdscr.addstr(i, 40, item)
 

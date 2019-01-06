@@ -9,4 +9,7 @@ commands = [
 "Q  quit game",
 "w  equip weapon",
 "W  equip armor",
-">  go down a staircase"]
+">  go down a staircase",
+"p  drink potion",
+"r  read scroll",
+"d  drop item"]

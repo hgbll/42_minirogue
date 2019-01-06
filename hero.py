@@ -4,9 +4,9 @@ from update import add_more
 
 class Hero:
     def __init__(self,x,y,lvl):
-       self.hp = 12 + (lvl * 2)
+       self.hp = 20 + (lvl * 2)
        self.str = (12 + lvl) / 2
-       self.max_hp = 12 + (lvl * 2)
+       self.max_hp = 20 + (lvl * 2)
        self.max_str = (12 + lvl) / 2
        self.armor = 0
        self.x = x
@@ -16,7 +16,7 @@ class Hero:
        self.next_lvl = 10
        self.hunger = 300
        self.max_hunger = 300
-       self.accuracy = 5 + lvl
+       self.accuracy = 6 + lvl
        self.defense = 10 + lvl/2
        self.damage = 0
        self.combat_status = ""
@@ -25,7 +25,7 @@ class Hero:
        self.weapon = 0
        self.view_distance = 1
 	   
-    
+
     def attack(self,enemy):
         if ((randint(0,20) + self.accuracy) > enemy.defense):
             self.damage = self.str - enemy.armor
@@ -47,7 +47,8 @@ class Hero:
             self.lvl += 1
             self.xp = self.xp - self.next_lvl
             self.next_lvl = 10 + (self.lvl * 2)
-            game.title = "You are level " + str(self.lvl) +" !"
+            self.max_hunger += 100
+            game.title = "You are level " + str(self.lvl) +"!"
 
     def update(self, game):
         game.hero.hunger -= 1
@@ -69,11 +70,15 @@ class Hero:
         return -1
 
 enemy_list = [
-    { "name": "Bat", "hp": 10, "str":2,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 4, "triggered": False },
-    { "name": "Snake", "hp": 10, "str":5,"armor":0,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 5, "triggered": True  },
-    { "name": "Gobelin", "hp": 10, "str":6,"armor":1,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6, "triggered": True },
-    { "name": "Hobgobelin", "hp": 16, "str":6,"armor":2,"symbol": "H","acc": 5,"def": 9,"range" : 3, "exp": 8,"triggered": True },
+    { "name": "Bat", "hp": 6, "str":2,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 5, "triggered": False },
+    { "name": "Snake", "hp": 7, "str":3,"armor":0,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 6, "triggered": True  },
+    { "name": "Slime", "hp": 12, "str":2,"armor":0,"symbol": "O","acc": 4,"def": 6,"range" : 2, "exp": 6,"triggered": False },
+    { "name": "Kestrel", "hp": 9, "str":5,"armor":1,"symbol": "K","acc": 5,"def": 9,"range" : 3, "exp": 7, "triggered": True },
+    { "name": "Hobgobelin", "hp": 14, "str":6,"armor":2,"symbol": "H","acc": 5,"def": 9,"range" : 3, "exp": 8,"triggered": False },
 	{ "name": "Norminet", "hp": 24, "str":6,"armor":2,"symbol": "N","acc": 8,"def": 11,"range" : 0, "exp": 17, "triggered": False },
+    { "name": "Tortoise", "hp": 50, "str":1,"armor":4,"symbol": "T","acc": 4,"def": 15,"range" : 0, "exp": 1, "triggered": False },
+    { "name": "Dragon", "hp": 20, "str":10,"armor":2,"symbol": "D","acc": 10,"def": 8,"range" : 5, "exp": 25, "triggered": True },
+
 ]
 free_tiles = ['.', '#', '+', '%']
 
@@ -81,7 +86,7 @@ class Enemy:
     def __init__(self,x,y,lvl,index):
        self.name= enemy_list[index]["name"]
        self.hp = enemy_list[index]["hp"] + (lvl * 2)
-       self.str = (enemy_list[index]["str"]+ hero.lvl)
+       self.str = (enemy_list[index]["str"]+ lvl)
        self.armor = enemy_list[index]["armor"]
        self.x = x
        self.y = y
@@ -96,7 +101,7 @@ class Enemy:
        self.can_attack = False
        self.triggered = enemy_list[index]["triggered"]
        self.can_see_hero = False
-       self.exp = enemy_list[index]["exp"] * lvl
+       self.exp = enemy_list[index]["exp"] * (lvl + 2)/2
     
     def attack(self,hero):
         if ((randint(0,20) + self.accuracy) > hero.defense):
