@@ -80,7 +80,7 @@ class Enemy:
     def __init__(self,x,y,lvl,index):
        self.name= enemy_list[index]["name"]
        self.hp = enemy_list[index]["hp"] + (lvl * 2)
-       self.str = (enemy_list[index]["str"]+ lvl) / 2
+       self.str = (enemy_list[index]["str"]+ hero.lvl)
        self.armor = enemy_list[index]["armor"]
        self.x = x
        self.y = y
