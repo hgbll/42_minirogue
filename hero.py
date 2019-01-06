@@ -56,7 +56,7 @@ class Hero:
         for room in game.rooms:
             if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
                 return (index)
-            else
+            else:
                 index += 1
 
 enemy_list = [
@@ -126,7 +126,7 @@ class Enemy:
         for room in game.rooms:
             if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
                 return (index)
-            else
+            else:
                 index += 1
 
     def hero_in_room(self, hero, game):
