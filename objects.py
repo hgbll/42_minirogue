@@ -1,7 +1,13 @@
 from random import randint
+import create_level
+
 
 food_list = [
-	"a piece of mushroom"
+	"a mushroom",
+	"a couple of nuts",
+	"a rotten apple",
+	"a moldy sandwich",
+	"an egg"
 ]
 
 armor_list = [
@@ -23,6 +29,7 @@ potion_list = [
     { "name": "a magic potion", "value": 2},
     { "name": "a transparent potion", "value": 3}
 ]
+
 
 scroll_list = [
 	{ "name": "a piece of worthless paper", "value": 0},
@@ -88,15 +95,16 @@ class Scroll(Item):
 
 	def read_scroll(self, game):
 		if self.value == 0:
-			game.text = "nothing happens"
+			game.title = "nothing happens"
 		elif self.value == 1:
 			game.hidden = [[False] * 80 for i in range(22)]
-			game.text = "suddenly you can see"
+			game.title = "suddenly you can see"
 		elif self.value == 2:
 			game.hero.max_hunger += 100
-			game.text = "i feel already less hungry"
+			game.title = "i feel already less hungry"
 		elif self.value == 3:
-			game.hero.x, game.hero.y = filter(lambda x: x[0] != -1, [(line.find('%'), i) for i, line in enumerate(game.level)])[0]
-			game.text = "finally, next level!"
+			#game.hero.x, game.hero.y = filter(lambda x: x[0] != -1, [(line.find('%'), i) for i, line in enumerate(game.level)])[0]
+			create_level.create_level(game)
+			game.title = "finally, next level!"
 
-item_types = [Food, Armor, Weapon, Potion, Scroll]
+item_types = [Armor, Weapon, Potion, Scroll]

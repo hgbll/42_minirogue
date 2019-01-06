@@ -4,6 +4,7 @@ from random import randint
 from create_level_strings import create_level_strings
 from create_rooms import create_rooms
 
+
 def get_random_monsters(game, room, monster_count):
     
     monsters = []
@@ -21,7 +22,9 @@ def get_random_monsters(game, room, monster_count):
                     if monster_x == game.hero.x and monster_y == game.hero.y:
                         not_unique_pos = 1
             monster_level = randint(1, game.level_num)
-            monster_index = randint(0, len(hero.enemy_list) - 1)
+            dice = (randint(0,len(hero.enemy_list)-1) + randint(0,len(hero.enemy_list)-1)) / 2
+            coef =  max(0,(game.level_num%3) -1)
+            monster_index = min(dice + coef,len(hero.enemy_list)-1)
             monsters.append(hero.Enemy(monster_x, monster_y, monster_level, monster_index))
     
     return monsters
@@ -45,7 +48,10 @@ def get_random_items(game, room, item_count, treasure_count):
                         not_unique_pos = 1
 
             if treasure_count:
-                items.append(objects.Treasure(item_x, item_y))
+                if randint(0, 1):
+                    items.append(objects.Treasure(item_x, item_y))
+                else:
+                    items.append(objects.Food(item_x,item_y,randint(0, len(objects.food_list) - 1)))
                 treasure_count -= 1
             else:
                 item_type = objects.item_types[randint(0, len(objects.item_types) - 1)]
@@ -70,7 +76,7 @@ def spawn_items(game):
 
     for room in game.rooms:
         d100 = randint(0, 100)
-        item_count = (treasure_room if d100 > 95 else 1) if d100 > 50 else 0
+        item_count = (treasure_room if d100 > 95 else 1) if d100 > 60 else 0
         d100 = randint(0, 100)
         treasure_count = (treasure_room if d100 > 95 else 1) if d100 > 50 else 0
         if item_count or treasure_count:
