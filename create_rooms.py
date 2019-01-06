@@ -14,16 +14,26 @@ class Room:
         self.width = randint(3 + bigger, 3 + bigger + (right_border - self.anchor_x - 6))
         self.height = randint(3 + bigger, 3 + bigger + (bottom_border - self.anchor_y - 5))
 
-        self.zone = zone
-
         self.door_north = (0, 0) if zone / 3 == 0 else (randint(self.anchor_x + 1, self.anchor_x + self.width - 1), self.anchor_y)
         self.door_south = (0, 0) if zone / 3 == 2 else (randint(self.anchor_x + 1, self.anchor_x + self.width - 1), self.anchor_y + self.height)
         self.door_west = (0, 0) if zone % 3 == 0 else (self.anchor_x, randint(self.anchor_y + 1, self.anchor_y + self.height - 1))
         self.door_east = (0, 0) if zone % 3 == 2 else (self.anchor_x + self.width, randint(self.anchor_y + 1, self.anchor_y + self.height - 1))
 
         self.box = {"min_x": self.anchor_x + 1, "max_x": self.anchor_x + self.width - 1, "min_y": self.anchor_y + 1, "max_y": self.anchor_y + self.height - 1}
-
         self.size = (self.width - 1) * (self.height - 1)
+
+        self.no_room = randint(0, 100) >= 80
+        if self.no_room:
+            self.width = 0
+            self.height = 0
+            self.door_north = (0, 0) if zone / 3 == 0 else (self.anchor_x, self.anchor_y)
+            self.door_south = (0, 0) if zone / 3 == 2 else (self.anchor_x, self.anchor_y)
+            self.door_west = (0, 0) if zone % 3 == 0 else (self.anchor_x, self.anchor_y)
+            self.door_east = (0, 0) if zone % 3 == 2 else (self.anchor_x, self.anchor_y)
+            self.box = {"min_x": 0, "max_x":0, "min_y":0, "max_y":0}
+            self.size = 0
+
+        self.zone = zone
 
         self.has_stairs = 0
    

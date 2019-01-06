@@ -1,5 +1,6 @@
 from random import randint
 import actions_function
+from update import add_more
 
 class Hero:
     def __init__(self,x,y,lvl):
@@ -68,7 +69,7 @@ class Hero:
         return -1
 
 enemy_list = [
-    { "name": "Bat", "hp": 10, "str":2,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 4, "triggered": True },
+    { "name": "Bat", "hp": 10, "str":2,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 4, "triggered": False },
     { "name": "Snake", "hp": 10, "str":5,"armor":0,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 5, "triggered": True  },
     { "name": "Gobelin", "hp": 10, "str":6,"armor":1,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6, "triggered": True },
     { "name": "Hobgobelin", "hp": 16, "str":6,"armor":2,"symbol": "H","acc": 5,"def": 9,"range" : 3, "exp": 8,"triggered": True },
@@ -108,40 +109,41 @@ class Enemy:
             self.combat_status =  self.name + " miss you"
     
     def pursuit(self,hero):
-        if (actions_function.get_distance(self,hero) < self.detection_range and self.can_see_hero == True) or self.triggered == True:
+        if actions_function.get_distance(self,hero) < self.detection_range and self.can_see_hero == True:
             self.pursuit_status = True
+        elif actions_function.get_distance(self,hero) > 5:
+            self.pursuit_status = False
 
     def check_for_monster(self, game, next_x, next_y):
-        if ((next_x != game.hero.x) != (next_y != game.hero.y)):
+        if next_x != game.hero.x or next_y != game.hero.y:
             for m in game.monsters:
-                if m.y == next_y:
-                    if m.x != next_x:
-                       self.x = next_x
-                       self.y = next_y
-                       return(1)
-                if m.x == next_x:
-                    if m.y != next_y:
-                       self.x = next_x
-                       self.y = next_y
-                       return(1)
-        return(0) 
+                if m.y == next_y and m.x == next_x:
+                    return 0
+            return 1
+        return 0
+
+
+
 
 
     def move(self,hero, level, game):
-        if self.pursuit_status == True and actions_function.get_distance(self,hero) >= 1:
-            if self.x > hero.x and level[self.y][self.x - self.mouvement] in free_tiles:
-                self.check_for_monster(game, self.x - self.mouvement, self.y)
-            elif self.x < hero.x and level[self.y][self.x + self.mouvement] in free_tiles:
-                self.check_for_monster(game, self.x + self.mouvement, self.y)
-            if self.y > hero.y and level[self.y - self.mouvement][self.x] in free_tiles:
-                self.check_for_monster(game, self.x , self.y - self.mouvement)
-            elif self.y < hero.y and level[self.y + self.mouvement][self.x] in free_tiles:
-                self.check_for_monster(game, self.x , self.y + self.mouvement)
-
+        if self.pursuit_status == True and actions_function.get_distance(self,hero) > 1:
+            if self.x > hero.x and level[self.y][self.x - self.mouvement] in free_tiles and self.check_for_monster(game, self.x - self.mouvement, self.y):
+                self.x -= self.mouvement
+            elif self.x < hero.x and level[self.y][self.x + self.mouvement] in free_tiles and self.check_for_monster(game, self.x + self.mouvement, self.y):
+                self.x += self.mouvement
+            elif self.y > hero.y and level[self.y - self.mouvement][self.x] in free_tiles and self.check_for_monster(game, self.x , self.y - self.mouvement):
+                self.y -= self.mouvement
+            elif self.y < hero.y and level[self.y + self.mouvement][self.x] in free_tiles and self.check_for_monster(game, self.x , self.y + self.mouvement):
+                self.y += self.mouvement
 
     def update(self, hero, game):
         self.hero_in_room(hero,game)
-        if actions_function.get_distance(self,hero) < 2:
+        if actions_function.get_distance(self,hero) < 2 and self.triggered:
+            self.attack(hero)
+            if game.title != "":
+                add_more(game)
+            game.title = self.combat_status
             self.can_attack = True
         else:
             self.can_attack = False

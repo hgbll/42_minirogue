@@ -19,7 +19,6 @@ def update_player_pos(game, key):
                 return
         if game.level[game.hero.y - 1][game.hero.x] in free_tiles:
             game.hero.y -= 1
-            update_monsters_pos(game)
 
     if key == curses.KEY_DOWN or key == ord('j'):
         for monster in game.monsters:
@@ -28,7 +27,6 @@ def update_player_pos(game, key):
                 return
         if game.level[game.hero.y + 1][game.hero.x] in free_tiles:
             game.hero.y += 1
-            update_monsters_pos(game)
 
     if key == curses.KEY_LEFT or key == ord('h'):
         for monster in game.monsters:
@@ -37,7 +35,6 @@ def update_player_pos(game, key):
                 return
         if game.level[game.hero.y][game.hero.x - 1] in free_tiles:
             game.hero.x -= 1
-            update_monsters_pos(game)
 
     if key == curses.KEY_RIGHT or key == ord('l'):
         for monster in game.monsters:
@@ -46,7 +43,7 @@ def update_player_pos(game, key):
                 return
         if game.level[game.hero.y][game.hero.x + 1] in free_tiles:
             game.hero.x += 1
-            update_monsters_pos(game)
+
     
 def handle_item(game, item):
 
@@ -95,18 +92,15 @@ def fight(hero,enemy,game):
     if game.title != "":
         add_more(game)
     game.title = hero.combat_status
-    add_more(game)
-    if enemy.hp > 0:
-        enemy.attack(hero)
-        game.title = enemy.combat_status
-    else :
+    if enemy.hp <= 0:
         hero.xp += enemy.exp
         game.monsters.remove(enemy)
 
 def update(game, key):
     game.hero.update(game)
-    if game.game_over == False:
-        update_player_pos(game, key)
-        lift_fog(game)
-        check_items(game)
 
+    if game.game_over == False and key != 0:
+        update_player_pos(game, key)
+        update_monsters_pos(game)
+    check_items(game)
+    lift_fog(game)

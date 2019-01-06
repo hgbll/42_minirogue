@@ -54,13 +54,13 @@ def get_char(i, j, k, rooms, level):
 
     if (k != 0 and j != 0):
         if (j == rooms[i].door_north[1] and k == rooms[i].door_north[0]):
-            level[j][k] = '+'
+            level[j][k] = '+' if not rooms[i].no_room else '#'
         if (j == rooms[i].door_west[1] and k == rooms[i].door_west[0]):
-            level[j][k] = '+'
+            level[j][k] = '+' if not rooms[i].no_room else '#'
         if (j == rooms[i].door_south[1] and k == rooms[i].door_south[0]):
-            level[j][k] = '+'
+            level[j][k] = '+' if not rooms[i].no_room else '#'
         if (j == rooms[i].door_east[1] and k == rooms[i].door_east[0]):
-            level[j][k] = '+'
+            level[j][k] = '+' if not rooms[i].no_room else '#'
 
 def put_corridors(level, rooms):
 
@@ -73,6 +73,9 @@ def put_corridors(level, rooms):
 def put_stairs(level, rooms):
 
     i = randint(0, 8)
+    while rooms[i].no_room:
+        i = randint(0, 8)
+
     stairs_x = randint(rooms[i].box['min_x'], rooms[i].box['max_x'])
     stairs_y = randint(rooms[i].box['min_y'], rooms[i].box['max_y'])
     rooms[i].has_stairs = 1
