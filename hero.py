@@ -20,6 +20,7 @@ class Hero:
        self.inventory = []
        self.weak = False
        self.weapon = 0
+	   
     
     def attack(self,enemy):
         if ((randint(0,20) + self.accuracy) > enemy.defense):
@@ -31,9 +32,9 @@ class Hero:
         else:
             self.combat_status = "you miss " + enemy.name
         if (enemy.hp <= 0):
-            self.combat_status += " | Defeate " + enemy.name
+            self.combat_status += " | Defeated " + enemy.name
     
-    def update(self):
+    def levelup(self):
         if (self.xp >= self.next_lvl):
             self.max_hp += 3
             self.hp = self.max_hp
@@ -45,8 +46,8 @@ class Hero:
             
 
 enemy_list = [
-    { "name": "Bat", "hp": 16, "str":8,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 6, "exp": 8},
-    { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 6, "exp": 8 },
+    { "name": "Bat", "hp": 16, "str":8,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 5, "exp": 8},
+    { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 5, "exp": 8 },
     { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6 },
     { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 3, "exp": 10 },
 ]
