@@ -21,7 +21,7 @@ def get_random_monsters(game, room, monster_count):
                         not_unique_pos = 1
                     if monster_x == game.hero.x and monster_y == game.hero.y:
                         not_unique_pos = 1
-            monster_level = randint(1, game.level_num)
+            monster_level = randint(1, game.hero.lvl)
             dice = (randint(0,len(hero.enemy_list)-1) + randint(0,len(hero.enemy_list)-1)) / 2
             coef =  max(0,(game.level_num%3) -1)
             monster_index = min(dice + coef,len(hero.enemy_list)-1)
