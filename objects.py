@@ -32,7 +32,7 @@ class Treasure(Item):
 		self.sym = "*"
 
 class Food(Item):
-	def __init__(self, x, y):
+	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
 		self.sym = ":"
 		self.description = "some food"
@@ -40,20 +40,22 @@ class Food(Item):
 class Armor(Item):
 	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
-		self.value = armor_list[index]["value"]
+		self.value = armor_list[min(index, len(armor_list) - 1)]["value"]
 		self.sym = "]"
 		self.description = armor_list[index]["name"]
 
 class Weapon(Item):
 	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
-		self.value = weapon_list[index]["value"]
+		self.value = weapon_list[min(index, len(weapon_list) - 1)]["value"]
 		self.sym = ")"
 		self.description = weapon_list[index]["name"]
 
 class Potion(Item):
 	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
-		self.value = weapon_list[index]["value"]
+		self.value = weapon_list[min(index, len(potion_list) - 1)]["value"]
 		self.sym = ")"
 		self.description = weapon_list[index]["name"]
+
+item_types = [Food, Armor, Weapon, Potion]
