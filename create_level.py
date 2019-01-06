@@ -1,34 +1,54 @@
 from random import randint
 
-"""
-        self.anchor_x = right_border - (6 + randint(0, 20))
-        self.anchor_y = bottom_border - (5 + randint(0, 2))
+def draw_line(level, door1, door2, direction):
 
-        self.width = randint(3, 3 + (right_border - self.anchor_x - 6))
-        self.height = randint(3, 3 +  (bottom_border - self.anchor_y - 5))
-"""
-class Room:
+    if door1[0] == door2[0]:
+        steps = range(door1[1] + 1, door2[1])
+        for i in steps:
+            level[i][door1[0]] = '#'
 
-    def __init__(self, zone):
+    if door1[1] == door2[1]:
+        steps = range(door1[0] + 1, door2[0])
+        for i in steps:
+            level[door1[1]][i] = '#'
 
-        right_border = (zone % 3) * 26 + 26
-        bottom_border = (zone / 3) * 7 + 7 + (1 if zone / 3 == 2 else 0)
+    else:
+        if direction == "right":
+            distance_x = abs(door2[0] - door1[0])
+            turn = randint(1, distance_x - 1)
+            y = door1[1]
+            y_step = 1 if door2[1] - door1[1] > 0 else -1
+            for x in range(1, distance_x):
+                if x == turn:
+                    level[y][door1[0] + x] = '#'
+                    while y < door2[1] if door2[1] > door1[1] else y > door2[1]:
+                        y += y_step
+                        level[y][door1[0] + x] = '#'
+                else:
+                    level[y][door1[0] + x] = '#'
 
-        self.anchor_x = right_border - (6 + randint(0, 19))
-        self.anchor_y = bottom_border - (5 + randint(0, 1) + (1 if zone / 3 == 2 else 0))
+        if direction == "down":
+            distance_y = abs(door2[1] - door1[1])
+            turn = randint(1, distance_y - 1)
+            x = door1[0]
+            x_step = 1 if door2[0] - door1[0] > 0 else -1
+            for y in range(1, distance_y):
+                if y == turn:
+                    level[door1[1] + y][x] = '#'
+                    while x < door2[0] if door2[0] > door1[0] else x > door2[0]:
+                        x += x_step
+                        level[door1[1] + y][x] = '#'
+                else:
+                    level[door1[1] + y][x] = '#'
 
-        bigger = 1 if randint(0, 100) <= 75 else 0
-        self.width = randint(3 + bigger, 3 + bigger + (right_border - self.anchor_x - 6))
-        self.height = randint(3 + bigger, 3 + bigger + (bottom_border - self.anchor_y - 5))
+def put_corridors(level, rooms):
 
-        self.zone = zone
+    for i in range (0, 9):
+        if rooms[i].door_south != (0, 0):
+            draw_line(level, rooms[i].door_south, rooms[i + 3].door_north, "down")
+        if rooms[i].door_east != (0, 0):
+            draw_line(level, rooms[i].door_east, rooms[i + 1].door_west, "right")
 
-        self.door_north = (0, 0) if zone / 3 == 0 else (randint(self.anchor_x + 1, self.anchor_x + self.width - 1), self.anchor_y)
-        self.door_south = (0, 0) if zone / 3 == 2 else (randint(self.anchor_x + 1, self.anchor_x + self.width - 1), self.anchor_y + self.height)
-        self.door_west = (0, 0) if zone % 3 == 0 else (self.anchor_x, randint(self.anchor_y + 1, self.anchor_y + self.height - 1))
-        self.door_east = (0, 0) if zone % 3 == 2 else (self.anchor_x + self.width, randint(self.anchor_y + 1, self.anchor_y + self.height - 1))
-
-   
 def get_char(i, j, k, rooms, level):
     
     if (j == rooms[i].anchor_y or j == rooms[i].anchor_y + rooms[i].height) and (k >= rooms[i].anchor_x and k <= rooms[i].anchor_x + rooms[i].width):
@@ -50,43 +70,9 @@ def get_char(i, j, k, rooms, level):
         if (j == rooms[i].door_east[1] and k == rooms[i].door_east[0]):
             level[j][k] = '+'
 
-def create_rooms():
-
-    rooms = []
-    for i in range(0, 9):
-        rooms.append(Room(i))
-    return (rooms)
-
-def put_corridor(level, door1, door2):
-
-    if door1[0] == door2[0]:
-        direction = 1 if door1[1] < door2[1] else -1
-        for i in range(door1[1], door2[1]):
-            print str(i)
-            level[i * direction][door1[0]] = '#'
-
-    if door1[1] == door2[1]:
-        direction = 1 if door1[0] < door2[0] else -1
-        for i in range(door1[0] + 1, door2[0]):
-            print str(i)
-            level[i * direction][door1[0]] = '#'
-
-def create_corridors(level, rooms):
-
-    for i in range (0, 9):
-        if rooms[i].door_north != (0, 0):
-            put_corridor(level, rooms[i].door_north, rooms[i - 3].door_south)
-        if rooms[i].door_south != (0, 0):
-            put_corridor(level, rooms[i].door_south, rooms[i + 3].door_north)
-        if rooms[i].door_west != (0, 0):
-            put_corridor(level, rooms[i].door_west, rooms[i - 1].door_east)
-        if rooms[i].door_east != (0, 0):
-            put_corridor(level, rooms[i].door_east, rooms[i + 1].door_west)
-
-def create_level():
+def create_level(rooms):
 
     level = []
-    rooms = create_rooms()
 
     for i in range(0, 22):
         level.append(80 * [' '])
@@ -96,13 +82,9 @@ def create_level():
             for k in range (0, 80):
                 get_char(i, j, k, rooms, level)
 
-    create_corridors(level, rooms)
+    put_corridors(level, rooms)
 
     return [''.join(i) for i in level]
-
-level = create_level()
-for line in level:
-    print line
 
 """
 def create_level():
@@ -130,4 +112,4 @@ def create_level():
     level.append("    |...+#################### -----------                  |.............|      ")
     level.append("    -----                                                  ---------------      ")
     return level
-
+"""
