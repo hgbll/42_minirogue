@@ -68,11 +68,11 @@ class Hero:
         return -1
 
 enemy_list = [
-    { "name": "Bat", "hp": 10, "str":6,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 8},
-    { "name": "Snake", "hp": 10, "str":7,"armor":0,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 8 },
-    { "name": "Gobelin", "hp": 10, "str":8,"armor":1,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6 },
-    { "name": "Hobgobelin", "hp": 16, "str":8,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 3, "exp": 10 },
-	{ "name": "Norminet", "hp": 24, "str":8,"armor":2,"symbol": "N","acc": 8,"def": 18,"range" : 0, "exp": 20 },
+    { "name": "Bat", "hp": 10, "str":2,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 4, "triggered": True },
+    { "name": "Snake", "hp": 10, "str":5,"armor":0,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 5, "triggered": True  },
+    { "name": "Gobelin", "hp": 10, "str":6,"armor":1,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6, "triggered": True },
+    { "name": "Hobgobelin", "hp": 16, "str":6,"armor":2,"symbol": "H","acc": 5,"def": 9,"range" : 3, "exp": 8,"triggered": True },
+	{ "name": "Norminet", "hp": 24, "str":6,"armor":2,"symbol": "N","acc": 8,"def": 11,"range" : 0, "exp": 17, "triggered": False },
 ]
 free_tiles = ['.', '#', '+', '%']
 
@@ -93,7 +93,7 @@ class Enemy:
        self.mouvement = 1
        self.detection_range = enemy_list[index]["range"]
        self.can_attack = False
-       self.triggered = False
+       self.triggered = enemy_list[index]["triggered"]
        self.can_see_hero = False
        self.exp = enemy_list[index]["exp"] * lvl
     
