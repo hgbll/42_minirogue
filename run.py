@@ -23,7 +23,6 @@ class Game:
         self.game_over_screen = game_over_screen.game_over_screen(self)
         self.stdscr = stdscr
         self.name = name
-        self.stairs = (0,0)
 
 def wait_with_space(stdscr):
     stdscr.addstr(23, 0, "-- press space to continue --")
@@ -53,13 +52,14 @@ def other_keys(stdscr, key, game):
         else:
             game.title = "you have no food left"
     elif key == ord('p'):
-        food = [x for x in game.hero.inventory if isinstance(x, objects.Food)]
-        if len(food) > 0:
-            game.hero.hunger = 500
-            game.hero.inventory.remove(food[0])
-            game.hero.hp = min(game.hero.hp + 1, game.hero.max_hp)
-            game.hero.str = game.hero.max_str
-            game.hero.weak = False
+        potions = [x for x in game.hero.inventory if isinstance(x, objects.Potion)]
+        if len(potions) > 0:
+            draw.draw_list(stdscr, [ chr(ord('a') + i)+") " + item.description for i, item in enumerate(potions)])
+            stdscr.addstr(23, 0, "-- select a potion to drink --")
+            k = 0
+            while not ord('a') <= k < ord('a') + len(potions):
+                k = stdscr.getch()
+            game.hero.inventory.remove(potions[k - ord('a')])
             game.title = "you drank something delicious and feel regenerated"
             return 0
         else:
@@ -91,7 +91,7 @@ def other_keys(stdscr, key, game):
             game.hero.inventory.remove(items[k - ord('a')])
             return 0
     elif key == ord('>'):
-        if game.hero.y == game.stairs[0] and game.hero.x == game.stairs[1]:
+        if level[game.hero.y][game.hero.x] == '%':
             create_level.create_level(game)
         else:
             game.title = "I see no way down"
