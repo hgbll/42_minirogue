@@ -1,4 +1,7 @@
 def game_over_screen(game):
+    name = game.name
+    if len(name) > 18:
+        name = name[:18]
     game_over = []
     game_over.append("                                                           ")
     game_over.append("                                                           ")
@@ -13,7 +16,7 @@ def game_over_screen(game):
     game_over.append("                              |                  |         ")
     game_over.append("                              |      level       |         ")
     game_over.append("                              |        "+ str(game.hero.lvl)+"         |         ")
-    game_over.append("                              |       Hero       |         ")
+    game_over.append("                              |"+      name.center(18, ' ')  +          "|         ")
     game_over.append("                              |                  |         ")
     game_over.append("                             *|     *  *  *      | *       ")
     game_over.append("                     ________)/\\_//(\/(/\)/\//\/|_)_______")

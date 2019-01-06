@@ -1,5 +1,6 @@
 from random import randint
 import actions_function
+
 class Hero:
     def __init__(self,x,y,lvl):
        self.hp = 12 + (lvl * 2)
@@ -50,8 +51,13 @@ class Hero:
             game.game_over = True 
         self.levelup(game)
 
+    def get_room_index(self, game):
+        for room in game.rooms:
+            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y'])
+                return (rooms.index(room))
+
 enemy_list = [
-    { "name": "Bat", "hp": 16, "str":6,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 8},
+    { "name": "Bat", "hp": 14, "str":6,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 8},
     { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 8 },
     { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6 },
     { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 3, "exp": 10 },
@@ -105,15 +111,21 @@ class Enemy:
                 self.y = self.y + self.mouvement
 
     def update(self, hero, level):
-        #if self.hp <= 0:
-        #    self.symbol = '.'
-        #    return
         if actions_function.get_distance(self,hero) < 2:
             self.can_attack = True
         else:
             self.can_attack = False
         self.pursuit(hero)
         self.move(hero, level)
+
+    def get_room_index(self, game):
+        for room in game.rooms:
+            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y'])
+                return (rooms.index(room))
+
+    def hero_in_room(self, hero, game)
+        if self.get_room_index(game) == hero.get_room_index(game):
+            return (True)
 
 """
 
