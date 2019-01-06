@@ -48,8 +48,22 @@ def other_keys(stdscr, key, game):
             game.hero.str = game.hero.max_str
             game.hero.weak = False
             game.title = "you ate some awful scraps and feel better now"
+            return 0
         else:
             game.title = "you have no food left"
+    elif key == ord('p'):
+        potions = [x for x in game.hero.inventory if isinstance(x, objects.Potion)]
+        if len(potions) > 0:
+            draw.draw_list(stdscr, [ chr(ord('a') + i)+") " + item.description for i, item in enumerate(potions)])
+            stdscr.addstr(23, 0, "-- select a potion to drink --")
+            k = 0
+            while not ord('a') <= k < ord('a') + len(potions):
+                k = stdscr.getch()
+            game.hero.inventory.remove(potions[k - ord('a')])
+            game.title = "you drank something delicious and feel regenerated"
+            return 0
+        else:
+            game.title = "you have no potions left"
     elif key == ord('w'):
         items = [i for i in game.hero.inventory if isinstance(i, objects.Weapon)]
         if len(items) == 0:
@@ -62,6 +76,7 @@ def other_keys(stdscr, key, game):
                 k = stdscr.getch()
             game.hero.weapon = items[k - ord('a')].value
             game.hero.inventory.remove(items[k - ord('a')])
+            return 0
     elif key == ord('W'):
         items = [i for i in game.hero.inventory if isinstance(i, objects.Armor)]
         if len(items) == 0:
@@ -74,6 +89,12 @@ def other_keys(stdscr, key, game):
                 k = stdscr.getch()
             game.hero.armor = items[k - ord('a')].value
             game.hero.inventory.remove(items[k - ord('a')])
+            return 0
+    elif key == ord('>'):
+        if level[game.hero.y][game.hero.x] == '%':
+            create_level.create_level(game)
+        else:
+            game.title = "I see no way down"
     else:
         return 0
     return 1

@@ -47,11 +47,13 @@ def place_hero(game):
 def create_level(game):
 
     game.level_num += 1
+
+    game.monsters = []
+    game.items = []
+    game.hidden = [[False] * 80 for i in range(22)]
+
     game.rooms = create_rooms()
     game.level = create_level_strings(game.rooms)
+
     spawn_monsters(game)
     place_hero(game)
-#     reset hidden
-#     reset monsters
-#     reset items
-#     set stairs
