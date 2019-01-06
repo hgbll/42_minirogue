@@ -52,9 +52,12 @@ class Hero:
         self.levelup(game)
 
     def get_room_index(self, game):
+        index = 0
         for room in game.rooms:
-            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y'])
-                return (rooms.index(room))
+            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
+                return (index)
+            else
+                index += 1
 
 enemy_list = [
     { "name": "Bat", "hp": 14, "str":6,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 8},
@@ -119,11 +122,14 @@ class Enemy:
         self.move(hero, level)
 
     def get_room_index(self, game):
+        index = 0
         for room in game.rooms:
-            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y'])
-                return (rooms.index(room))
+            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
+                return (index)
+            else
+                index += 1
 
-    def hero_in_room(self, hero, game)
+    def hero_in_room(self, hero, game):
         if self.get_room_index(game) == hero.get_room_index(game):
             return (True)
 
