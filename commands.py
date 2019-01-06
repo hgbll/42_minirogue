@@ -8,4 +8,5 @@ commands = [
 "e  eat some food",
 "Q  quit game",
 "w  equip weapon",
-"W  equip armor"]
+"W  equip armor",
+">  go down a staircase"]

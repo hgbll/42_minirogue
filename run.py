@@ -23,6 +23,7 @@ class Game:
         self.game_over_screen = game_over_screen.game_over_screen(self)
         self.stdscr = stdscr
         self.name = name
+        self.stairs = (0,0)
 
 def wait_with_space(stdscr):
     stdscr.addstr(23, 0, "-- press space to continue --")
@@ -48,8 +49,21 @@ def other_keys(stdscr, key, game):
             game.hero.str = game.hero.max_str
             game.hero.weak = False
             game.title = "you ate some awful scraps and feel better now"
+            return 0
         else:
             game.title = "you have no food left"
+    elif key == ord('p'):
+        food = [x for x in game.hero.inventory if isinstance(x, objects.Food)]
+        if len(food) > 0:
+            game.hero.hunger = 500
+            game.hero.inventory.remove(food[0])
+            game.hero.hp = min(game.hero.hp + 1, game.hero.max_hp)
+            game.hero.str = game.hero.max_str
+            game.hero.weak = False
+            game.title = "you drank something delicious and feel regenerated"
+            return 0
+        else:
+            game.title = "you have no potions left"
     elif key == ord('w'):
         items = [i for i in game.hero.inventory if isinstance(i, objects.Weapon)]
         if len(items) == 0:
@@ -62,6 +76,7 @@ def other_keys(stdscr, key, game):
                 k = stdscr.getch()
             game.hero.weapon = items[k - ord('a')].value
             game.hero.inventory.remove(items[k - ord('a')])
+            return 0
     elif key == ord('W'):
         items = [i for i in game.hero.inventory if isinstance(i, objects.Armor)]
         if len(items) == 0:
@@ -74,6 +89,12 @@ def other_keys(stdscr, key, game):
                 k = stdscr.getch()
             game.hero.armor = items[k - ord('a')].value
             game.hero.inventory.remove(items[k - ord('a')])
+            return 0
+    elif key == ord('>'):
+        if game.hero.y == game.stairs[0] and game.hero.x == game.stairs[1]:
+            create_level.create_level(game)
+        else:
+            game.title = "I see no way down"
     else:
         return 0
     return 1
