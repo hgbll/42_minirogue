@@ -1,5 +1,5 @@
 from random import randint
-
+"""
 def draw_line(level, door1, door2, direction):
 
     if door1[0] == door2[0]:
@@ -112,4 +112,3 @@ def create_level():
     level.append("    |...+#################### -----------                  |.............|      ")
     level.append("    -----                                                  ---------------      ")
     return level
-"""

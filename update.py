@@ -11,7 +11,7 @@ def update_player_pos(game, key):
     free_tiles = ['.', '#', '+']
     x = game.hero.x
     y = game.hero.y
-    game.hero.update()
+    game.hero.update(game)
 
     if key == curses.KEY_UP:
         for monster in game.monsters:
@@ -76,22 +76,25 @@ def lift_fog(game):
                 game.hidden[game.hero.y + y][game.hero.x + x] = False
 
 def fight(hero,enemy,game):
+    enemy.triggered = True
     hero.attack(enemy)
     game.title = hero.combat_status
+    game.stdscr.addstr(0, 0, game.title)
     run.wait_with_space(game.stdscr)
     if enemy.hp > 0:
         enemy.attack(hero)
-        #game.title = hero.combat_status
+        game.title = enemy.combat_status
     else :
         hero.xp += enemy.exp
         game.monsters.remove(enemy)
 
 def update(game, key):
 
-    update_player_pos(game, key)
-    lift_fog(game)
-    check_items(game)
-    game.hero.hunger -= 1
-    if game.hero.hunger < 100 and not game.hero.weak:
-        game.hero.str /= 2
-        game.hero.weak = True
+    if game.game_over == False:
+        update_player_pos(game, key)
+        lift_fog(game)
+        check_items(game)
+        game.hero.hunger -= 1
+        if game.hero.hunger < 100 and not game.hero.weak:
+            game.hero.str /= 2
+            game.hero.weak = True
