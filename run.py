@@ -20,9 +20,9 @@ class Game:
         self.rooms = []
         self.hidden = [[False] * 80 for i in range(22)]
         self.game_over = False
-        self.game_over_screen = game_over_screen.game_over_screen(self)
         self.stdscr = stdscr
         self.name = name
+        self.game_over_screen = game_over_screen.game_over_screen(self)
 
 def wait_with_space(stdscr):
     stdscr.addstr(23, 0, "-- press space to continue --")
