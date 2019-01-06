@@ -9,13 +9,14 @@ import commands
 
 class Game:
     def __init__(self, stdscr):
-        self.monsters = [hero.Enemy(30,19,1,0), hero.Enemy(65,9,1,0)]
-        self.hero = hero.Hero(65,19,1)
-        self.items = [objects.Treasure(11, 2), objects.Food(33, 19), objects.Armor(60, 11, 1), objects.Armor(63, 11, 3), objects.Weapon(65, 20, 1), objects.Weapon(63, 20, 3)]
-        self.level_num = 1
+        self.monsters = []
+        self.hero = hero.Hero(0,0,1)
+        self.items = []
+        self.level_num = 0
         self.gold = 0
         self.title = ""
-        self.level = create_level.create_level()
+        self.level = []
+        self.rooms = []
         self.hidden = [[False] * 80 for i in range(22)]
         self.stdscr = stdscr
 
@@ -77,6 +78,8 @@ def run(stdscr):
     key = 0
 
     game = Game(stdscr)
+
+    create_level(game)
 
     stdscr.clear()
     stdscr.refresh()
