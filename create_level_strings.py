@@ -73,8 +73,10 @@ def put_corridors(level, rooms):
 def put_stairs(level, rooms):
 
     i = randint(0, 8)
-    while rooms[i].no_room:
+    count = 0
+    while rooms[i].no_room and count < 10:
         i = randint(0, 8)
+        count += 1
 
     stairs_x = randint(rooms[i].box['min_x'], rooms[i].box['max_x'])
     stairs_y = randint(rooms[i].box['min_y'], rooms[i].box['max_y'])

@@ -86,7 +86,7 @@ def spawn_items(game):
 def place_hero(game):
 
     i = randint(0, 8)
-    while game.rooms[i].has_stairs:
+    while game.rooms[i].has_stairs or game.rooms[i].no_room:
         i = randint(0, 8)
 
     not_unique_pos = 1
