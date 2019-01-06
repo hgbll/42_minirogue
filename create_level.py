@@ -50,7 +50,7 @@ def create_level(game):
 
     game.monsters = []
     game.items = []
-    game.hidden = [[False] * 80 for i in range(22)]
+    game.hidden = [[True] * 80 for i in range(22)]
 
     game.rooms = create_rooms()
     game.level = create_level_strings(game.rooms)

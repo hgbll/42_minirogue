@@ -18,7 +18,7 @@ class Game:
         self.title = ""
         self.level = []
         self.rooms = []
-        self.hidden = [[False] * 80 for i in range(22)]
+        self.hidden = [[True] * 80 for i in range(22)]
         self.game_over = False
         self.stdscr = stdscr
         self.name = name
@@ -94,8 +94,11 @@ def other_keys(stdscr, key, game):
     elif key == ord('>'):
         if game.level[game.hero.y][game.hero.x] == '%':
             create_level.create_level(game)
+            return 0
         else:
             game.title = "I see no way down"
+    elif key == ord('.'):
+        return 0
     else:
         return 0
     return 1
@@ -128,7 +131,8 @@ def run(stdscr):
         game.title = ""
 
     if game.game_over:
-        key = stdscr.getch()
+        while key != ord('Q'):
+            key = stdscr.getch()
     else:
         draw.draw_end(stdscr, game)
 

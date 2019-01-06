@@ -73,6 +73,12 @@ def lift_fog(game):
         for x in range(-1,2):
             if 0 <= game.hero.y + y < 22 and 0 <= game.hero.x + x < 80:
                 game.hidden[game.hero.y + y][game.hero.x + x] = False
+    i = game.hero.get_room_index(game)
+    if i >= 0:
+        room = game.rooms[i]
+        for y in range(room.anchor_y, room.anchor_y + room.height + 1):
+            for x in range(room.anchor_x, room.anchor_x + room.width + 1):
+                game.hidden[y][x] = False
 
 def add_more(game):
     game.stdscr.addstr(0, 0, game.title)
@@ -102,10 +108,4 @@ def update(game, key):
         update_player_pos(game, key)
         lift_fog(game)
         check_items(game)
-        game.hero.hunger -= 1
-        if game.hero.hunger < 250 and not game.hero.weak:
-            if game.title != "":
-                add_more(game)
-            game.title = "you feel weak"
-            game.hero.str /= 2
-            game.hero.weak = True
+

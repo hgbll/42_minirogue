@@ -47,21 +47,30 @@ class Hero:
             game.title = "You are level " + str(self.lvl) +"!"
 
     def update(self, game):
-        if self.hp <= 0:
+        game.hero.hunger -= 1
+        if game.hero.hunger < 100 and not game.hero.weak:
+            if game.title != "":
+                add_more(game)
+            game.title = "you feel weak"
+            game.hero.str /= 2
+            game.hero.weak = True
+
+        if self.hp <= 0 or game.hero.hunger <= 0:
             game.game_over = True 
         self.levelup(game)
 
     def get_room_index(self, game):
-        for room in game.rooms:
-            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y'])
-                return (rooms.index(room))
+        for i, room in enumerate(game.rooms):
+            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
+                return i
+        return -1
 
 enemy_list = [
     { "name": "Bat", "hp": 14, "str":6,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 8},
     { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 8 },
     { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6 },
     { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 3, "exp": 10 },
-	{ "name": "Norminet", "hp": 30, "str":8,"armor":2,"symbol": "N","acc": 8,"def": 18,"range" : 0, "exp": 20 },
+    { "name": "Norminet", "hp": 30, "str":8,"armor":2,"symbol": "N","acc": 8,"def": 18,"range" : 0, "exp": 20 },
 ]
 free_tiles = ['.', '#', '+', '%']
 
@@ -120,10 +129,10 @@ class Enemy:
 
     def get_room_index(self, game):
         for room in game.rooms:
-            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y'])
+            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
                 return (rooms.index(room))
 
-    def hero_in_room(self, hero, game)
+    def hero_in_room(self, hero, game):
         if self.get_room_index(game) == hero.get_room_index(game):
             return (True)
 
