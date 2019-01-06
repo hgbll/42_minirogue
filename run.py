@@ -12,7 +12,7 @@ class Game:
     def __init__(self, stdscr, name):
         self.monsters = []
         self.hero = hero.Hero(0,0,1)
-        self.items = []
+        self.items = [objects.Potion(4,10,1)]
         self.level_num = 0
         self.gold = 0
         self.title = ""
@@ -59,7 +59,7 @@ def other_keys(stdscr, key, game):
             k = 0
             while not ord('a') <= k < ord('a') + len(potions):
                 k = stdscr.getch()
-
+            potions[k - ord('a')].take_potion(game)
             game.hero.inventory.remove(potions[k - ord('a')])
             game.title = "you drank something delicious and feel regenerated"
             return 0
@@ -131,7 +131,7 @@ def run(stdscr):
         game.title = ""
 
     if game.game_over:
-        while key != ord('Q'):
+        while key != ord('Q') and key != ord('q'):
             key = stdscr.getch()
     else:
         draw.draw_end(stdscr, game)

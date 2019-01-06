@@ -9,7 +9,7 @@ armor_list = [
 
 weapon_list = [
     { "name": "a piece of stone", "value": 1},
-    { "name": "a wodden sword", "value": 2},
+    { "name": "a wooden sword", "value": 2},
     { "name": "a couple of arrows", "value": 3},
     { "name": "a crumbling axe", "value": 6},
 ]
@@ -17,6 +17,14 @@ weapon_list = [
 potion_list = [
     { "name": "a simple red potion", "value": 1},
     { "name": "a magic potion", "value": 2},
+    { "name": "a transparent potion", "value": 3}
+]
+
+scroll_list = [
+	{ "name": "a piece of worthless paper", "value": 0}
+    { "name": "a map", "value": 1},
+    { "name": "a survival book", "value": 2},
+    { "name": "an ancient text about stone circles", "value": 3}
 ]
 
 class Item:
@@ -54,6 +62,30 @@ class Weapon(Item):
 class Potion(Item):
 	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
-		self.value = weapon_list[index]["value"]
-		self.sym = ")"
-		self.description = weapon_list[index]["name"]
+		self.value = potion_list[index]["value"]
+		self.sym = "!"
+		self.description = potion_list[index]["name"]
+
+	def take_potion(self, game):
+		if self.value == 1:
+			game.hero.hp = min(game.hero.hp + 5, game.hero.max_hp)
+		elif self.value == 2:
+			game.hero.xp = game.hero.next_lvl
+		elif self.value == 3:
+			game.hero.view_distance += 1
+
+class Scroll(Item):
+	def __init__(self, x, y, index):
+		Item.__init__(self, x, y)
+		self.value = potion_list[index]["value"]
+		self.sym = "?"
+		self.description = potion_list[index]["name"]
+
+	def read_scroll(self, game):
+		if self.value == 1:
+			game.hidden = [[False] * 80 for i in range(22)]
+		elif self.value == 2:
+			game.hero.max_hunger += 100
+		elif self.value == 3:
+			game.hero.x, game.hero.y = filter(lambda x: x[0] != -1, [(line.find('%'), i) for i, line in enumerate(game.level)])[0]
+

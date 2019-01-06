@@ -69,8 +69,8 @@ def check_items(game):
     game.items = new_list
 
 def lift_fog(game):
-    for y in range(-1,2):
-        for x in range(-1,2):
+    for y in range(-game.hero.view_distance,game.hero.view_distance+1):
+        for x in range(-game.hero.view_distance,game.hero.view_distance+1):
             if 0 <= game.hero.y + y < 22 and 0 <= game.hero.x + x < 80:
                 game.hidden[game.hero.y + y][game.hero.x + x] = False
     i = game.hero.get_room_index(game)
@@ -81,6 +81,7 @@ def lift_fog(game):
                 game.hidden[y][x] = False
 
 def add_more(game):
+    game.stdscr.addstr(0,0," " * 80)
     game.stdscr.addstr(0, 0, game.title)
     game.stdscr.attron(curses.color_pair(1))
     game.stdscr.addstr(0, len(game.title) + 1, "MORE")
