@@ -69,7 +69,7 @@ class Hero:
         return -1
 
 enemy_list = [
-    { "name": "Bat", "hp": 10, "str":2,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 4, "triggered": True },
+    { "name": "Bat", "hp": 10, "str":2,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 4, "triggered": False },
     { "name": "Snake", "hp": 10, "str":5,"armor":0,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 5, "triggered": True  },
     { "name": "Gobelin", "hp": 10, "str":6,"armor":1,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6, "triggered": True },
     { "name": "Hobgobelin", "hp": 16, "str":6,"armor":2,"symbol": "H","acc": 5,"def": 9,"range" : 3, "exp": 8,"triggered": True },
@@ -109,7 +109,7 @@ class Enemy:
             self.combat_status =  self.name + " miss you"
     
     def pursuit(self,hero):
-        if (actions_function.get_distance(self,hero) < self.detection_range and self.can_see_hero == True) or self.triggered == True:
+        if actions_function.get_distance(self,hero) < self.detection_range and self.can_see_hero == True:
             self.pursuit_status = True
         elif actions_function.get_distance(self,hero) > 5:
             self.pursuit_status = False
