@@ -41,14 +41,6 @@ def draw_line(level, door1, door2, direction):
                 else:
                     level[door1[1] + y][x] = '#'
 
-def put_corridors(level, rooms):
-
-    for i in range (0, 9):
-        if rooms[i].door_south != (0, 0):
-            draw_line(level, rooms[i].door_south, rooms[i + 3].door_north, "down")
-        if rooms[i].door_east != (0, 0):
-            draw_line(level, rooms[i].door_east, rooms[i + 1].door_west, "right")
-
 def get_char(i, j, k, rooms, level):
     
     if (j == rooms[i].anchor_y or j == rooms[i].anchor_y + rooms[i].height) and (k >= rooms[i].anchor_x and k <= rooms[i].anchor_x + rooms[i].width):
@@ -70,6 +62,21 @@ def get_char(i, j, k, rooms, level):
         if (j == rooms[i].door_east[1] and k == rooms[i].door_east[0]):
             level[j][k] = '+'
 
+def put_corridors(level, rooms):
+
+    for i in range (0, 9):
+        if rooms[i].door_south != (0, 0):
+            draw_line(level, rooms[i].door_south, rooms[i + 3].door_north, "down")
+        if rooms[i].door_east != (0, 0):
+            draw_line(level, rooms[i].door_east, rooms[i + 1].door_west, "right")
+
+def put_stairs(level, rooms):
+
+    i = randint(0, 8)
+    stairs_x = randint(rooms[i].box['min_x'], rooms[i].box['max_x'])
+    stairs_y = randint(rooms[i].box['min_y'], rooms[i].box['max_y'])
+    level[stairs_y][stairs_x] = '%'
+
 def create_level_strings(rooms):
 
     level = []
@@ -83,5 +90,6 @@ def create_level_strings(rooms):
                 get_char(i, j, k, rooms, level)
 
     put_corridors(level, rooms)
+    put_stairs(level, rooms)
 
     return [''.join(i) for i in level]

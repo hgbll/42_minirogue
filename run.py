@@ -111,7 +111,7 @@ def run(stdscr):
 
     game = Game(stdscr, name)
 
-    create_level(game)
+    create_level.create_level(game)
 
     stdscr.clear()
     stdscr.refresh()
