@@ -1,5 +1,6 @@
 import curses
 import objects
+import run
 
 def update_monsters_pos(game):
     for monster in game.monsters:
@@ -77,9 +78,10 @@ def lift_fog(game):
 def fight(hero,enemy,game):
     hero.attack(enemy)
     game.title = hero.combat_status
+    run.wait_with_space(game.stdscr)
     if enemy.hp > 0:
         enemy.attack(hero)
-        game.title = enemy.combat_status
+        #game.title = hero.combat_status
     else :
         hero.xp += enemy.exp
         game.monsters.remove(enemy)
