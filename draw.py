@@ -5,7 +5,7 @@ def draw_msg(stdscr, game, height, width):
     stdscr.addstr(0, 0, game.title)
 
 def draw_status(stdscr, game, height, width):
-    statusbarstr = "Level:{}  Gold: {}  Hp: {}({})  Str: {}({})  Arm: {}   Exp: {}/{}".format(game.level_num, game.gold, game.hero.hp, game.hero.max_hp, game.hero.str + game.hero.weapon, game.hero.max_str + game.hero.weapon, game.hero.armor, game.hero.xp, game.hero.next_lvl)
+    statusbarstr = "Level:{}  Gold: {}  Hp: {}({})  Str: {}({})  Arm: {}   Exp[{}]: {}/{}".format(game.level_num, game.gold, game.hero.hp, game.hero.max_hp, game.hero.str + game.hero.weapon, game.hero.max_str + game.hero.weapon, game.hero.armor,game.hero.lvl, game.hero.xp, game.hero.next_lvl)
     stdscr.addstr(height - 1, 0, statusbarstr)
 
 def draw_hero(stdscr, game):
@@ -43,21 +43,22 @@ def draw_end(stdscr, game):
     while ord(' ') != stdscr.getch():
         pass
 
-
 def draw(stdscr, game):
 
     height = 24
     width = 80
     stdscr.clear()
-
-    draw_msg(stdscr, game, height, width)
-    draw_status(stdscr, game, height, width)
-    draw_level(stdscr, game)
-    draw_items(stdscr, game.items)
-    draw_monsters(stdscr, game)
-    add_fog(stdscr, game)
-    draw_hero(stdscr, game)
-
+    if game.game_over == False :
+        draw_msg(stdscr, game, height, width)
+        draw_status(stdscr, game, height, width)
+        draw_level(stdscr, game)
+        draw_items(stdscr, game.items)
+        draw_monsters(stdscr, game)
+        add_fog(stdscr, game)
+        draw_hero(stdscr, game)
+    else :
+       game.level = game.game_over_screen
+       draw_level(stdscr, game)
 
     stdscr.refresh()
 

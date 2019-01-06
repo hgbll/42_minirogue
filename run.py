@@ -6,6 +6,7 @@ import hero
 import update
 import objects
 import commands
+import game_over_screen
 
 class Game:
     def __init__(self, stdscr):
@@ -18,6 +19,8 @@ class Game:
         self.level = []
         self.rooms = []
         self.hidden = [[False] * 80 for i in range(22)]
+        self.game_over = False
+        self.game_over_screen = game_over_screen.game_over_screen(self)
         self.stdscr = stdscr
 
 def wait_with_space(stdscr):

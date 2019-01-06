@@ -34,7 +34,7 @@ class Hero:
         if (enemy.hp <= 0):
             self.combat_status += " | Defeated " + enemy.name
     
-    def levelup(self):
+    def levelup(self,game):
         if (self.xp >= self.next_lvl):
             self.max_hp += 3
             self.hp = self.max_hp
@@ -43,13 +43,19 @@ class Hero:
             self.lvl += 1
             self.xp = self.xp - self.next_lvl
             self.next_lvl = 10 + self.lvl
-            
+            game.title = "You are level " + str(self.lvl) +" !"
+
+    def update(self, game):
+        if self.hp <= 0:
+            game.game_over = True 
+        self.levelup(game)
 
 enemy_list = [
-    { "name": "Bat", "hp": 16, "str":8,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 5, "exp": 8},
-    { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 5, "exp": 8 },
+    { "name": "Bat", "hp": 16, "str":6,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 8},
+    { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 8 },
     { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6 },
     { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 3, "exp": 10 },
+	{ "name": "Norminet", "hp": 30, "str":8,"armor":2,"symbol": "N","acc": 8,"def": 18,"range" : 0, "exp": 20 },
 ]
 free_tiles = ['.', '#', '+']
 
@@ -70,6 +76,7 @@ class Enemy:
        self.mouvement = 1
        self.detection_range = enemy_list[index]["range"]
        self.can_attack = False
+       self.triggered = False
        self.exp = enemy_list[index]["exp"] * lvl
     
     def attack(self,hero):
@@ -83,7 +90,7 @@ class Enemy:
             self.combat_status =  self.name + " miss you"
     
     def pursuit(self,hero):
-        if actions_function.get_distance(self,hero) < self.detection_range:
+        if actions_function.get_distance(self,hero) < self.detection_range or self.triggered == True:
             self.pursuit_status = True
 
     def move(self,hero, level):
