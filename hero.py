@@ -1,6 +1,9 @@
 from random import randint
-import actions_function
 from update import add_more
+
+
+def get_distance(obj1,obj2):
+    return (abs(obj2.x - obj1.x)+ abs(obj2.y - obj1.y))
 
 class Hero:
     def __init__(self,x,y,lvl):
@@ -114,9 +117,9 @@ class Enemy:
             self.combat_status =  self.name + " miss you"
     
     def pursuit(self,hero):
-        if actions_function.get_distance(self,hero) < self.detection_range and self.can_see_hero == True:
+        if get_distance(self,hero) < self.detection_range and self.can_see_hero == True:
             self.pursuit_status = True
-        elif actions_function.get_distance(self,hero) > 5:
+        elif get_distance(self,hero) > 5:
             self.pursuit_status = False
 
     def check_for_monster(self, game, next_x, next_y):
@@ -127,12 +130,8 @@ class Enemy:
             return 1
         return 0
 
-
-
-
-
     def move(self,hero, level, game):
-        if self.pursuit_status == True and actions_function.get_distance(self,hero) > 1:
+        if self.pursuit_status == True and get_distance(self,hero) > 1:
             if self.x > hero.x and level[self.y][self.x - self.mouvement] in free_tiles and self.check_for_monster(game, self.x - self.mouvement, self.y):
                 self.x -= self.mouvement
             elif self.x < hero.x and level[self.y][self.x + self.mouvement] in free_tiles and self.check_for_monster(game, self.x + self.mouvement, self.y):
@@ -144,7 +143,7 @@ class Enemy:
 
     def update(self, hero, game):
         self.hero_in_room(hero,game)
-        if actions_function.get_distance(self,hero) < 2 and self.triggered:
+        if get_distance(self,hero) < 2 and self.triggered:
             self.attack(hero)
             if game.title != "":
                 add_more(game)
@@ -166,4 +165,3 @@ class Enemy:
             self.can_see_hero = True 
         else:
             self.can_see_hero = False
-

@@ -1,4 +1,5 @@
-import sys,os
+#!/usr/bin/env python
+
 import curses
 import create_level
 import draw

@@ -113,7 +113,6 @@ class Scroll(Item):
 			game.hero.max_hunger += 100
 			game.title = "i feel already less hungry"
 		elif self.value == 3:
-			#game.hero.x, game.hero.y = filter(lambda x: x[0] != -1, [(line.find('%'), i) for i, line in enumerate(game.level)])[0]
 			create_level.create_level(game)
 			game.title = "finally, next level!"
 

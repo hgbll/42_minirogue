@@ -1,6 +1,5 @@
 import curses
 import objects
-import run
 
 def update_monsters_pos(game):
     for monster in game.monsters:
