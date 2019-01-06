@@ -1,114 +1,45 @@
+from hero import Enemy
 from random import randint
-"""
-def draw_line(level, door1, door2, direction):
+from create_level_strings import create_level_strings
+from create_rooms import create_rooms
 
-    if door1[0] == door2[0]:
-        steps = range(door1[1] + 1, door2[1])
-        for i in steps:
-            level[i][door1[0]] = '#'
-
-    if door1[1] == door2[1]:
-        steps = range(door1[0] + 1, door2[0])
-        for i in steps:
-            level[door1[1]][i] = '#'
-
-    else:
-        if direction == "right":
-            distance_x = abs(door2[0] - door1[0])
-            turn = randint(1, distance_x - 1)
-            y = door1[1]
-            y_step = 1 if door2[1] - door1[1] > 0 else -1
-            for x in range(1, distance_x):
-                if x == turn:
-                    level[y][door1[0] + x] = '#'
-                    while y < door2[1] if door2[1] > door1[1] else y > door2[1]:
-                        y += y_step
-                        level[y][door1[0] + x] = '#'
-                else:
-                    level[y][door1[0] + x] = '#'
-
-        if direction == "down":
-            distance_y = abs(door2[1] - door1[1])
-            turn = randint(1, distance_y - 1)
-            x = door1[0]
-            x_step = 1 if door2[0] - door1[0] > 0 else -1
-            for y in range(1, distance_y):
-                if y == turn:
-                    level[door1[1] + y][x] = '#'
-                    while x < door2[0] if door2[0] > door1[0] else x > door2[0]:
-                        x += x_step
-                        level[door1[1] + y][x] = '#'
-                else:
-                    level[door1[1] + y][x] = '#'
-
-def put_corridors(level, rooms):
-
-    for i in range (0, 9):
-        if rooms[i].door_south != (0, 0):
-            draw_line(level, rooms[i].door_south, rooms[i + 3].door_north, "down")
-        if rooms[i].door_east != (0, 0):
-            draw_line(level, rooms[i].door_east, rooms[i + 1].door_west, "right")
-
-def get_char(i, j, k, rooms, level):
+def get_random_monster(game, room, monster_list_size, monster_count):
     
-    if (j == rooms[i].anchor_y or j == rooms[i].anchor_y + rooms[i].height) and (k >= rooms[i].anchor_x and k <= rooms[i].anchor_x + rooms[i].width):
-            level[j][k] = '-'
+    monsters = []
 
-    if (j > rooms[i].anchor_y and j < rooms[i].anchor_y + rooms[i].height) and (k == rooms[i].anchor_x or k == rooms[i].anchor_x + rooms[i].width):
-            level[j][k] = '|'
+    for i in range (0, monster_count):
 
-    if (j > rooms[i].anchor_y and j < rooms[i].anchor_y + rooms[i].height) and (k > rooms[i].anchor_x and k < rooms[i].anchor_x + rooms[i].width):
-            level[j][k] = '.'
+        not_unique_pos = 1
+        while not_unique_pos:
+            not_unique_pos = 0
+            monster_x = randint(room.box['min_x'], room.box['max_x'])
+            monster_y = randint(room.box['min_y'], room.box['max_y'])
+            for monster in monsters:
+                if monster.x == monster_x and monster.y == monster_y:
+                    not_unique_pos = 1
+        monster_level = randint(1, game.level_num)
+        monster_index = randint(0, monster_list_size - 1)
+        monsters.append(Enemy(monster_x, monster_y, monster_level, monster_index))
+    
+    return monsters
 
-    if (k != 0 and j != 0):
-        if (j == rooms[i].door_north[1] and k == rooms[i].door_north[0]):
-            level[j][k] = '+'
-        if (j == rooms[i].door_west[1] and k == rooms[i].door_west[0]):
-            level[j][k] = '+'
-        if (j == rooms[i].door_south[1] and k == rooms[i].door_south[0]):
-            level[j][k] = '+'
-        if (j == rooms[i].door_east[1] and k == rooms[i].door_east[0]):
-            level[j][k] = '+'
+def spawn_monsters(game, monster_list_size):
 
-def create_level(rooms):
+    for room in game.level_rooms:
+        d100 = randint(0, 100)
+        monster_count = (2 if d100 > 90 else 1) if d100 > 40 else 0
+        if monster_count:
+            for monster in get_random_monsters(game, room, monster_list_size, monster_count):
+                game.monsters.append(monster)
+        
+def create_level(game, monster_list_size):
 
-    level = []
-
-    for i in range(0, 22):
-        level.append(80 * [' '])
-
-    for i in range(0, 9):
-        for j in range(0, 22):
-            for k in range (0, 80):
-                get_char(i, j, k, rooms, level)
-
-    put_corridors(level, rooms)
-
-    return [''.join(i) for i in level]
-
-"""
-def create_level():
-    level = []
-    level.append("     ----------------         ------------                --------              ")
-    level.append("     |..............+#########+..........|            ####+......|              ")
-    level.append("     |..............|         |..........+#############   |......|              ")
-    level.append("     ------------+---         -------+----                --------              ")
-    level.append("                 #                   #                                          ")
-    level.append("                 #                   #############                              ")
-    level.append("      ############                               #                              ")
-    level.append("      #                                          #         --------------       ")
-    level.append("      #                      ########################      |............|       ")
-    level.append("  ----+------                #                   #  #      |............|       ")
-    level.append("  |.........|                #        ############  #######+............|       ")
-    level.append("  |.........|                #        #                    |............|       ")
-    level.append("  |.........+#################        #                    |............|       ")
-    level.append("  -----------                         #                    ---+----------       ")
-    level.append("                                      #                       #                 ")
-    level.append("                                      #                       #######           ")
-    level.append("                                      #                             #           ")
-    level.append("                              --------+--                           #           ")
-    level.append("    -----                     |.........+##########        ---------+-----      ")
-    level.append("    |...|                   ##+.........|         #########+.............|      ")
-    level.append("    |...+#################### -----------                  |.............|      ")
-    level.append("    -----                                                  ---------------      ")
-    return level
+    game.level_num += 1
+    game.rooms = create_rooms()
+    game.level = create_level_strings(game.rooms)
+    game.monsters = spawn_monsters(game, monster_list_size)
+#     reset hidden
+#     reset monsters
+#     reset items
+#     set hero 
+#     set stairs

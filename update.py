@@ -13,7 +13,7 @@ def update_player_pos(game, key):
     y = game.hero.y
     game.hero.update(game)
 
-    if key == curses.KEY_UP:
+    if key == curses.KEY_UP or key == ord('k'):
         for monster in game.monsters:
             if monster.x == game.hero.x and monster.y == game.hero.y - 1:
                 fight(game.hero,monster, game)
@@ -22,7 +22,7 @@ def update_player_pos(game, key):
             game.hero.y -= 1
             update_monsters_pos(game)
 
-    if key == curses.KEY_DOWN:
+    if key == curses.KEY_DOWN or key == ord('j'):
         for monster in game.monsters:
             if monster.x == game.hero.x and monster.y == game.hero.y + 1:
                 fight(game.hero,monster, game)
@@ -31,7 +31,7 @@ def update_player_pos(game, key):
             game.hero.y += 1
             update_monsters_pos(game)
 
-    if key == curses.KEY_LEFT:
+    if key == curses.KEY_LEFT or key == ord('h'):
         for monster in game.monsters:
             if monster.x == game.hero.x - 1 and monster.y == game.hero.y:
                 fight(game.hero,monster, game)
@@ -40,7 +40,7 @@ def update_player_pos(game, key):
             game.hero.x -= 1
             update_monsters_pos(game)
 
-    if key == curses.KEY_RIGHT:
+    if key == curses.KEY_RIGHT or key == ord('l'):
         for monster in game.monsters:
             if monster.x == game.hero.x + 1 and monster.y == game.hero.y:
                 fight(game.hero,monster, game)
