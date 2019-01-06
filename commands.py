@@ -1,9 +1,9 @@
 commands = [
 "?  show commands",
-"h  left",
-"j  up",
-"k  down",
-"l  right",
+"h  move left",
+"j  move down",
+"k  move up",
+"l  move right",
 "i  see inventory",
 "e  eat some food",
 "Q  quit game",

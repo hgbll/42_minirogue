@@ -9,7 +9,7 @@ import commands
 import game_over_screen
 
 class Game:
-    def __init__(self, stdscr):
+    def __init__(self, stdscr, name):
         self.monsters = []
         self.hero = hero.Hero(0,0,1)
         self.items = []
@@ -22,6 +22,7 @@ class Game:
         self.game_over = False
         self.game_over_screen = game_over_screen.game_over_screen(self)
         self.stdscr = stdscr
+        self.name = name
 
 def wait_with_space(stdscr):
     stdscr.addstr(23, 0, "-- press space to continue --")
@@ -80,7 +81,14 @@ def other_keys(stdscr, key, game):
 def run(stdscr):
     key = 0
 
-    game = Game(stdscr)
+    stdscr.clear()
+    stdscr.refresh()
+    stdscr.addstr(23, 0, "Rogue's name? ")
+    curses.echo()
+    name = stdscr.getstr()
+    curses.noecho()
+
+    game = Game(stdscr, name)
 
     create_level.create_level(game)
 
