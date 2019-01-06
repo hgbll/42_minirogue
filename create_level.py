@@ -94,6 +94,18 @@ def place_hero(game):
 
     game.hero.view_distance = 1
 
+def check_valid_layout(rooms):
+    
+    no_room_count = 0
+    for room in rooms:
+        if room.no_room:
+            no_room_count += 1
+
+    if no_room_count > 5:
+        return False
+    else:
+        return True
+
 def create_level(game):
 
     game.level_num += 1
@@ -103,6 +115,9 @@ def create_level(game):
     game.hidden = [[True] * 80 for i in range(22)]
 
     game.rooms = create_rooms()
+    while not check_valid_layout(game.rooms):
+        game.rooms = create_rooms()
+
     game.level = create_level_strings(game.rooms)
 
     spawn_monsters(game)
