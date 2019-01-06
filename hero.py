@@ -57,7 +57,7 @@ enemy_list = [
     { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 3, "exp": 10 },
 	{ "name": "Norminet", "hp": 30, "str":8,"armor":2,"symbol": "N","acc": 8,"def": 18,"range" : 0, "exp": 20 },
 ]
-free_tiles = ['.', '#', '+']
+free_tiles = ['.', '#', '+', '%']
 
 class Enemy:
     def __init__(self,x,y,lvl,index):

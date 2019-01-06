@@ -51,6 +51,7 @@ def create_level(game):
     game.level = create_level_strings(game.rooms)
     spawn_monsters(game)
     place_hero(game)
+
 #     reset hidden
 #     reset monsters
 #     reset items

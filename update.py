@@ -8,7 +8,7 @@ def update_monsters_pos(game):
 
 def update_player_pos(game, key):
 
-    free_tiles = ['.', '#', '+']
+    free_tiles = ['.', '#', '+', '%']
     x = game.hero.x
     y = game.hero.y
     game.hero.update(game)
