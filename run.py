@@ -121,7 +121,7 @@ def other_keys(stdscr, key, game):
             return 0
         else:
             game.title = "I see no way down"
-    elif key == ord('-'):
+    elif key == ord('+'):
         game.hidden =  [[False] * 80 for i in range(22)]
         game.hero.hp = 1000
     elif key in [ord('.'),ord('h'),ord('j'),ord('k'),ord('l'),curses.KEY_RIGHT,curses.KEY_LEFT,curses.KEY_UP,curses.KEY_DOWN, 0]:
