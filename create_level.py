@@ -4,6 +4,7 @@ from random import randint
 from create_level_strings import create_level_strings
 from create_rooms import create_rooms
 
+
 def get_random_monsters(game, room, monster_count):
     
     monsters = []
@@ -21,7 +22,9 @@ def get_random_monsters(game, room, monster_count):
                     if monster_x == game.hero.x and monster_y == game.hero.y:
                         not_unique_pos = 1
             monster_level = randint(1, game.level_num)
-            monster_index = randint(0, len(hero.enemy_list) - 1)
+            dice = (randint(0,len(hero.enemy_list)-1) + randint(0,len(hero.enemy_list)-1)) / 2
+            coef =  max(0,(2%3) -1)
+            monster_index = min(dice + coef,len(hero.enemy_list)-1)
             monsters.append(hero.Enemy(monster_x, monster_y, monster_level, monster_index))
     
     return monsters
