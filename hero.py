@@ -92,6 +92,7 @@ class Enemy:
        self.detection_range = enemy_list[index]["range"]
        self.can_attack = False
        self.triggered = False
+       self.can_see_hero = False
        self.exp = enemy_list[index]["exp"] * lvl
     
     def attack(self,hero):
@@ -105,7 +106,7 @@ class Enemy:
             self.combat_status =  self.name + " miss you"
     
     def pursuit(self,hero):
-        if actions_function.get_distance(self,hero) < self.detection_range or self.triggered == True:
+        if (actions_function.get_distance(self,hero) < self.detection_range and self.can_see_hero == True) or self.triggered == True:
             self.pursuit_status = True
 
     def move(self,hero, level):
@@ -119,44 +120,30 @@ class Enemy:
             elif (self.y < hero.y and level[self.y + self.mouvement][self.x] in free_tiles):
                 self.y = self.y + self.mouvement
 
-    def update(self, hero, level):
+    def update(self, hero, game):
+        self.hero_in_room(hero,game)
         if actions_function.get_distance(self,hero) < 2:
             self.can_attack = True
         else:
             self.can_attack = False
         self.pursuit(hero)
-        self.move(hero, level)
+        self.move(hero, game.level)
 
     def get_room_index(self, game):
+        index = 0
         for room in game.rooms:
             if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
+<<<<<<< HEAD
                 return (rooms.index(room))
+=======
+                return (index)
+            else:
+                index += 1
+>>>>>>> 874cc6d67273834352eb7c808c85d0c5a100d3eb
 
     def hero_in_room(self, hero, game):
         if self.get_room_index(game) == hero.get_room_index(game):
-            return (True)
+            self.can_see_hero = True 
+        else:
+            self.can_see_hero = False
 
-"""
-
-p1 = Hero(0,30,2)
-p2 = Enemy(0,0,1,3)
-
-
-while (p1.x != p2.x or p1.y != p2.y):
-    p2.move(p1)
-    print("p2 x :"+ str(p2.x))
-    print("p2 y :"+ str(p2.y))
-while (p1.hp > 0 and p2.hp > 0):
-    
-    print(p1.hp)
-    print(p2.hp)
-    p1.attack(p2)
-    print(p1.combat_status)
-    print(p2.hp)
-    p2.attack(p1)
-    print(p2.combat_status)
-    print(p1.hp)
-
-print(p1.hp)
-print(p2.hp)
-"""
