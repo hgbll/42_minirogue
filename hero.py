@@ -13,7 +13,7 @@ class Hero:
        self.xp = 0
        self.lvl = lvl
        self.next_lvl = 10
-       self.hunger = 500
+       self.hunger = 300
        self.accuracy = 5 + lvl
        self.defense = 10 + lvl/2
        self.damage = 0
@@ -29,7 +29,7 @@ class Hero:
             if (self.damage < 0):
                 self.damage = 1
             enemy.hp -= self.damage
-            self.combat_status = "you hit " + enemy.name + " [" + str(self.damage) + " damage(s)]"
+            self.combat_status = "you hit " + enemy.name + " [" + str(self.damage) + " damage]"
         else:
             self.combat_status = "you miss " + enemy.name
         if (enemy.hp <= 0):
@@ -44,27 +44,33 @@ class Hero:
             self.lvl += 1
             self.xp = self.xp - self.next_lvl
             self.next_lvl = 10 + self.lvl
-            game.title = "You are level " + str(self.lvl) +" !"
+            game.title = "You are level " + str(self.lvl) +"!"
 
     def update(self, game):
-        if self.hp <= 0:
+        game.hero.hunger -= 1
+        if game.hero.hunger < 100 and not game.hero.weak:
+            if game.title != "":
+                add_more(game)
+            game.title = "you feel weak"
+            game.hero.str /= 2
+            game.hero.weak = True
+
+        if self.hp <= 0 or game.hero.hunger <= 0:
             game.game_over = True 
         self.levelup(game)
 
     def get_room_index(self, game):
-        index = 0
-        for room in game.rooms:
+        for i, room in enumerate(game.rooms):
             if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
-                return (index)
-            else:
-                index += 1
+                return i
+        return -1
 
 enemy_list = [
     { "name": "Bat", "hp": 14, "str":6,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 8},
     { "name": "Snake", "hp": 16, "str":11,"armor":1,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 8 },
     { "name": "Gobelin", "hp": 16, "str":8,"armor":2,"symbol": "G","acc": 5,"def": 9,"range" : 3, "exp": 6 },
     { "name": "Hobgobelin", "hp": 16, "str":14,"armor":2,"symbol": "H","acc": 5,"def": 11,"range" : 3, "exp": 10 },
-	{ "name": "Norminet", "hp": 30, "str":8,"armor":2,"symbol": "N","acc": 8,"def": 18,"range" : 0, "exp": 20 },
+    { "name": "Norminet", "hp": 30, "str":8,"armor":2,"symbol": "N","acc": 8,"def": 18,"range" : 0, "exp": 20 },
 ]
 free_tiles = ['.', '#', '+', '%']
 
@@ -86,6 +92,7 @@ class Enemy:
        self.detection_range = enemy_list[index]["range"]
        self.can_attack = False
        self.triggered = False
+       self.can_see_hero = False
        self.exp = enemy_list[index]["exp"] * lvl
     
     def attack(self,hero):
@@ -94,12 +101,12 @@ class Enemy:
             if (self.damage < 0):
                 self.damage = 1
             hero.hp -= self.damage
-            self.combat_status = self.name + " hit you" + " [" + str(self.damage) + " damage(s)]"
+            self.combat_status = self.name + " hit you" + " [" + str(self.damage) + " damage]"
         else:
             self.combat_status =  self.name + " miss you"
     
     def pursuit(self,hero):
-        if actions_function.get_distance(self,hero) < self.detection_range or self.triggered == True:
+        if (actions_function.get_distance(self,hero) < self.detection_range and self.can_see_hero == True) or self.triggered == True:
             self.pursuit_status = True
 
     def move(self,hero, level):
@@ -113,47 +120,24 @@ class Enemy:
             elif (self.y < hero.y and level[self.y + self.mouvement][self.x] in free_tiles):
                 self.y = self.y + self.mouvement
 
-    def update(self, hero, level):
+    def update(self, hero, game):
+        self.hero_in_room(hero,game)
         if actions_function.get_distance(self,hero) < 2:
             self.can_attack = True
         else:
             self.can_attack = False
         self.pursuit(hero)
-        self.move(hero, level)
+        self.move(hero, game.level)
 
     def get_room_index(self, game):
-        index = 0
-        for room in game.rooms:
+        for i, room in enumerate(game.rooms):
             if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
-                return (index)
-            else:
-                index += 1
+                return i
+        return -1
 
     def hero_in_room(self, hero, game):
         if self.get_room_index(game) == hero.get_room_index(game):
-            return (True)
+            self.can_see_hero = True 
+        else:
+            self.can_see_hero = False
 
-"""
-
-p1 = Hero(0,30,2)
-p2 = Enemy(0,0,1,3)
-
-
-while (p1.x != p2.x or p1.y != p2.y):
-    p2.move(p1)
-    print("p2 x :"+ str(p2.x))
-    print("p2 y :"+ str(p2.y))
-while (p1.hp > 0 and p2.hp > 0):
-    
-    print(p1.hp)
-    print(p2.hp)
-    p1.attack(p2)
-    print(p1.combat_status)
-    print(p2.hp)
-    p2.attack(p1)
-    print(p2.combat_status)
-    print(p1.hp)
-
-print(p1.hp)
-print(p2.hp)
-"""

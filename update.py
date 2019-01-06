@@ -4,14 +4,13 @@ import run
 
 def update_monsters_pos(game):
     for monster in game.monsters:
-        monster.update(game.hero, game.level)
+        monster.update(game.hero, game)
 
 def update_player_pos(game, key):
 
     free_tiles = ['.', '#', '+', '%']
     x = game.hero.x
     y = game.hero.y
-    game.hero.update(game)
 
     if key == curses.KEY_UP or key == ord('k'):
         for monster in game.monsters:
@@ -74,13 +73,28 @@ def lift_fog(game):
         for x in range(-1,2):
             if 0 <= game.hero.y + y < 22 and 0 <= game.hero.x + x < 80:
                 game.hidden[game.hero.y + y][game.hero.x + x] = False
+    i = game.hero.get_room_index(game)
+    if i >= 0:
+        room = game.rooms[i]
+        for y in range(room.anchor_y, room.anchor_y + room.height + 1):
+            for x in range(room.anchor_x, room.anchor_x + room.width + 1):
+                game.hidden[y][x] = False
+
+def add_more(game):
+    game.stdscr.addstr(0, 0, game.title)
+    game.stdscr.attron(curses.color_pair(1))
+    game.stdscr.addstr(0, len(game.title) + 1, "MORE")
+    game.stdscr.attroff(curses.color_pair(1))
+    game.stdscr.move(game.hero.y + 1, game.hero.x)
+    game.stdscr.getch()
 
 def fight(hero,enemy,game):
     enemy.triggered = True
     hero.attack(enemy)
+    if game.title != "":
+        add_more(game)
     game.title = hero.combat_status
-    game.stdscr.addstr(0, 0, game.title)
-    run.wait_with_space(game.stdscr)
+    add_more(game)
     if enemy.hp > 0:
         enemy.attack(hero)
         game.title = enemy.combat_status
@@ -89,12 +103,9 @@ def fight(hero,enemy,game):
         game.monsters.remove(enemy)
 
 def update(game, key):
-
+    game.hero.update(game)
     if game.game_over == False:
         update_player_pos(game, key)
         lift_fog(game)
         check_items(game)
-        game.hero.hunger -= 1
-        if game.hero.hunger < 100 and not game.hero.weak:
-            game.hero.str /= 2
-            game.hero.weak = True
+
