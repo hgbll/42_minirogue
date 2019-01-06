@@ -1,5 +1,6 @@
 from random import randint
 import actions_function
+
 class Hero:
     def __init__(self,x,y,lvl):
        self.hp = 12 + (lvl * 2)
@@ -49,6 +50,11 @@ class Hero:
         if self.hp <= 0:
             game.game_over = True 
         self.levelup(game)
+
+    def get_room_index(self, game):
+        for room in game.rooms:
+            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y'])
+                return (rooms.index(room))
 
 enemy_list = [
     { "name": "Bat", "hp": 16, "str":6,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 8},
@@ -114,6 +120,15 @@ class Enemy:
             self.can_attack = False
         self.pursuit(hero)
         self.move(hero, level)
+
+    def get_room_index(self, game):
+        for room in game.rooms:
+            if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y'])
+                return (rooms.index(room))
+
+    def hero_in_room(self, hero, game)
+        if self.get_room_index(game) == hero.get_room_index(game):
+            return (True)
 
 """
 
