@@ -75,6 +75,7 @@ def put_stairs(level, rooms):
     i = randint(0, 8)
     stairs_x = randint(rooms[i].box['min_x'], rooms[i].box['max_x'])
     stairs_y = randint(rooms[i].box['min_y'], rooms[i].box['max_y'])
+    rooms[i].has_stairs = 1
     level[stairs_y][stairs_x] = '%'
 
 def create_level_strings(rooms):

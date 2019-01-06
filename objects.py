@@ -1,5 +1,9 @@
 from random import randint
 
+food_list = [
+	"a piece of mushroom"
+]
+
 armor_list = [
     { "name": "a piece of leather", "value": 1},
     { "name": "a well-made leather suit", "value": 2},
@@ -21,7 +25,7 @@ potion_list = [
 ]
 
 scroll_list = [
-	{ "name": "a piece of worthless paper", "value": 0}
+	{ "name": "a piece of worthless paper", "value": 0},
     { "name": "a map", "value": 1},
     { "name": "a survival book", "value": 2},
     { "name": "an ancient text about stone circles", "value": 3}
@@ -40,31 +44,32 @@ class Treasure(Item):
 		self.sym = "*"
 
 class Food(Item):
-	def __init__(self, x, y):
+	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
 		self.sym = ":"
-		self.description = "some food"
+		self.description = food_list[min(index, len(food_list) - 1)]
+
 
 class Armor(Item):
 	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
-		self.value = armor_list[index]["value"]
+		self.value = armor_list[min(index, len(armor_list) - 1)]["value"]
 		self.sym = "]"
-		self.description = armor_list[index]["name"]
+		self.description = armor_list[min(index, len(armor_list) - 1)]["name"]
 
 class Weapon(Item):
 	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
-		self.value = weapon_list[index]["value"]
+		self.value = weapon_list[min(index, len(weapon_list) - 1)]["value"]
 		self.sym = ")"
-		self.description = weapon_list[index]["name"]
+		self.description = weapon_list[min(index, len(weapon_list) - 1)]["name"]
 
 class Potion(Item):
 	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
-		self.value = potion_list[index]["value"]
+		self.value = potion_list[min(index, len(potion_list) - 1)]["value"]
 		self.sym = "!"
-		self.description = potion_list[index]["name"]
+		self.description = potion_list[min(index, len(potion_list) - 1)]["name"]
 
 	def take_potion(self, game):
 		if self.value == 1:
@@ -77,15 +82,21 @@ class Potion(Item):
 class Scroll(Item):
 	def __init__(self, x, y, index):
 		Item.__init__(self, x, y)
-		self.value = potion_list[index]["value"]
+		self.value = scroll_list[min(index, len(scroll_list) - 1)]["value"]
 		self.sym = "?"
-		self.description = potion_list[index]["name"]
+		self.description = scroll_list[min(index, len(scroll_list) - 1)]["name"]
 
 	def read_scroll(self, game):
-		if self.value == 1:
+		if self.value == 0:
+			game.text = "nothing happens"
+		elif self.value == 1:
 			game.hidden = [[False] * 80 for i in range(22)]
+			game.text = "suddenly you can see"
 		elif self.value == 2:
 			game.hero.max_hunger += 100
+			game.text = "i feel already less hungry"
 		elif self.value == 3:
 			game.hero.x, game.hero.y = filter(lambda x: x[0] != -1, [(line.find('%'), i) for i, line in enumerate(game.level)])[0]
+			game.text = "finally, next level!"
 
+item_types = [Food, Armor, Weapon, Potion, Scroll]

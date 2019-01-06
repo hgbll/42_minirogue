@@ -22,6 +22,10 @@ class Room:
         self.door_east = (0, 0) if zone % 3 == 2 else (self.anchor_x + self.width, randint(self.anchor_y + 1, self.anchor_y + self.height - 1))
 
         self.box = {"min_x": self.anchor_x + 1, "max_x": self.anchor_x + self.width - 1, "min_y": self.anchor_y + 1, "max_y": self.anchor_y + self.height - 1}
+
+        self.size = (self.width - 1) * (self.height - 1)
+
+        self.has_stairs = 0
    
 def create_rooms():
 

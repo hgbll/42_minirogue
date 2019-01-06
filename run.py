@@ -59,9 +59,22 @@ def other_keys(stdscr, key, game):
             k = 0
             while not ord('a') <= k < ord('a') + len(potions):
                 k = stdscr.getch()
+            game.title = "you drank something delicious and feel regenerated"
             potions[k - ord('a')].take_potion(game)
             game.hero.inventory.remove(potions[k - ord('a')])
-            game.title = "you drank something delicious and feel regenerated"
+            return 0
+        else:
+            game.title = "you have no potions left"
+    elif key == ord('r'):
+        scrolls = [x for x in game.hero.inventory if isinstance(x, objects.Scroll)]
+        if len(scrolls) > 0:
+            draw.draw_list(stdscr, [ chr(ord('a') + i)+") " + item.description for i, item in enumerate(scrolls)])
+            stdscr.addstr(23, 0, "-- select a scroll to read --")
+            k = 0
+            while not ord('a') <= k < ord('a') + len(scrolls):
+                k = stdscr.getch()
+            scrolls[k - ord('a')].read_scroll(game)
+            game.hero.inventory.remove(scrolls[k - ord('a')])
             return 0
         else:
             game.title = "you have no potions left"
