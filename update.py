@@ -4,7 +4,7 @@ import run
 
 def update_monsters_pos(game):
     for monster in game.monsters:
-        monster.update(game.hero, game.level)
+        monster.update(game.hero, game)
 
 def update_player_pos(game, key):
 
