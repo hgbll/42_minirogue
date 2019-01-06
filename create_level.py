@@ -48,7 +48,10 @@ def get_random_items(game, room, item_count, treasure_count):
                         not_unique_pos = 1
 
             if treasure_count:
-                items.append(objects.Treasure(item_x, item_y))
+                if randint(0, 1):
+                    items.append(objects.Treasure(item_x, item_y))
+                else:
+                    items.append(objects.Food(item_x,item_y,randint(0, len(objects.food_list) - 1)))
                 treasure_count -= 1
             else:
                 item_type = objects.item_types[randint(0, len(objects.item_types) - 1)]
@@ -73,7 +76,7 @@ def spawn_items(game):
 
     for room in game.rooms:
         d100 = randint(0, 100)
-        item_count = (treasure_room if d100 > 95 else 1) if d100 > 50 else 0
+        item_count = (treasure_room if d100 > 95 else 1) if d100 > 60 else 0
         d100 = randint(0, 100)
         treasure_count = (treasure_room if d100 > 95 else 1) if d100 > 50 else 0
         if item_count or treasure_count:
@@ -94,6 +97,8 @@ def place_hero(game):
         for monster in game.monsters:
             if monster.x == game.hero.x and monster.y == game.hero.y:
                 not_unique_pos = 1
+
+    game.hero.view_distance = 1
 
 def create_level(game):
 
