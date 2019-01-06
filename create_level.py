@@ -92,6 +92,8 @@ def place_hero(game):
             if monster.x == game.hero.x and monster.y == game.hero.y:
                 not_unique_pos = 1
 
+    game.hero.view_distance = 1
+
 def create_level(game):
 
     game.level_num += 1

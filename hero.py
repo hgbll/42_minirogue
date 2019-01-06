@@ -14,6 +14,7 @@ class Hero:
        self.lvl = lvl
        self.next_lvl = 10
        self.hunger = 300
+       self.max_hunger = 300
        self.accuracy = 5 + lvl
        self.defense = 10 + lvl/2
        self.damage = 0
@@ -21,6 +22,7 @@ class Hero:
        self.inventory = []
        self.weak = False
        self.weapon = 0
+       self.view_distance = 1
 	   
     
     def attack(self,enemy):
