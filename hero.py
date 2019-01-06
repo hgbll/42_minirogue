@@ -12,7 +12,7 @@ class Hero:
        self.xp = 0
        self.lvl = lvl
        self.next_lvl = 10
-       self.hunger = 500
+       self.hunger = 300
        self.accuracy = 5 + lvl
        self.defense = 10 + lvl/2
        self.damage = 0
@@ -28,7 +28,7 @@ class Hero:
             if (self.damage < 0):
                 self.damage = 1
             enemy.hp -= self.damage
-            self.combat_status = "you hit " + enemy.name + " [" + str(self.damage) + " damage(s)]"
+            self.combat_status = "you hit " + enemy.name + " [" + str(self.damage) + " damage]"
         else:
             self.combat_status = "you miss " + enemy.name
         if (enemy.hp <= 0):
@@ -43,7 +43,7 @@ class Hero:
             self.lvl += 1
             self.xp = self.xp - self.next_lvl
             self.next_lvl = 10 + self.lvl
-            game.title = "You are level " + str(self.lvl) +" !"
+            game.title = "You are level " + str(self.lvl) +"!"
 
     def update(self, game):
         if self.hp <= 0:
@@ -85,7 +85,7 @@ class Enemy:
             if (self.damage < 0):
                 self.damage = 1
             hero.hp -= self.damage
-            self.combat_status = self.name + " hit you" + " [" + str(self.damage) + " damage(s)]"
+            self.combat_status = self.name + " hit you" + " [" + str(self.damage) + " damage]"
         else:
             self.combat_status =  self.name + " miss you"
     

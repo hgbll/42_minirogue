@@ -42,7 +42,7 @@ def other_keys(stdscr, key, game):
     elif key == ord('e'):
         food = [x for x in game.hero.inventory if isinstance(x, objects.Food)]
         if len(food) > 0:
-            game.hero.hunger = 500
+            game.hero.hunger = 300
             game.hero.inventory.remove(food[0])
             game.hero.hp = min(game.hero.hp + 1, game.hero.max_hp)
             game.hero.str = game.hero.max_str
@@ -59,6 +59,7 @@ def other_keys(stdscr, key, game):
             k = 0
             while not ord('a') <= k < ord('a') + len(potions):
                 k = stdscr.getch()
+
             game.hero.inventory.remove(potions[k - ord('a')])
             game.title = "you drank something delicious and feel regenerated"
             return 0
@@ -91,7 +92,7 @@ def other_keys(stdscr, key, game):
             game.hero.inventory.remove(items[k - ord('a')])
             return 0
     elif key == ord('>'):
-        if level[game.hero.y][game.hero.x] == '%':
+        if game.level[game.hero.y][game.hero.x] == '%':
             create_level.create_level(game)
         else:
             game.title = "I see no way down"
@@ -101,6 +102,8 @@ def other_keys(stdscr, key, game):
 
 def run(stdscr):
     key = 0
+    curses.start_color()
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
     stdscr.clear()
     stdscr.refresh()
@@ -116,7 +119,7 @@ def run(stdscr):
     stdscr.clear()
     stdscr.refresh()
 
-    while key != ord('Q'):
+    while key != ord('Q') and not game.game_over:
         if not other_keys(stdscr, key, game):
             update.update(game, key)
         draw.draw(stdscr, game)
@@ -124,7 +127,10 @@ def run(stdscr):
         key = stdscr.getch()
         game.title = ""
 
-    draw.draw_end(stdscr, game)
+    if game.game_over:
+        key = stdscr.getch()
+    else:
+        draw.draw_end(stdscr, game)
 
 
 def main():
