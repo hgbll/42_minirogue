@@ -77,7 +77,7 @@ def other_keys(stdscr, key, game):
             game.hero.inventory.remove(scrolls[k - ord('a')])
             return 0
         else:
-            game.title = "you have no potions left"
+            game.title = "you have no scrolls left"
     elif key == ord('w'):
         items = [i for i in game.hero.inventory if isinstance(i, objects.Weapon)]
         if len(items) == 0:
