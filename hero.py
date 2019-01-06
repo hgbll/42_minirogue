@@ -43,13 +43,8 @@ class Hero:
             self.str = self.max_str
             self.lvl += 1
             self.xp = self.xp - self.next_lvl
-<<<<<<< HEAD
             self.next_lvl = 10 + (self.lvl * 2)
             game.title = "You are level " + str(self.lvl) +" !"
-=======
-            self.next_lvl = 10 + self.lvl
-            game.title = "You are level " + str(self.lvl) +"!"
->>>>>>> master
 
     def update(self, game):
         game.hero.hunger -= 1
