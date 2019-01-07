@@ -1,6 +1,18 @@
 from random import randint
 from update import add_more
 
+enemy_list = [
+    { "name": "Bat", "hp": 6, "str":2,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 5, "triggered": False },
+    { "name": "Snake", "hp": 7, "str":3,"armor":0,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 6, "triggered": True  },
+    { "name": "Emu", "hp": 12, "str":2,"armor":0,"symbol": "E","acc": 4,"def": 6,"range" : 2, "exp": 6,"triggered": False },
+    { "name": "Kestrel", "hp": 9, "str":4,"armor":0,"symbol": "K","acc": 4,"def": 8,"range" : 2, "exp": 7, "triggered": True },
+    { "name": "Hobgobelin", "hp": 14, "str":6,"armor":2,"symbol": "H","acc": 5,"def": 9,"range" : 3, "exp": 8,"triggered": False },
+    { "name": "Norminet", "hp": 24, "str":6,"armor":2,"symbol": "N","acc": 8,"def": 11,"range" : 0, "exp": 17, "triggered": False },
+    { "name": "Tortoise", "hp": 50, "str":1,"armor":4,"symbol": "T","acc": 4,"def": 15,"range" : 0, "exp": 1, "triggered": False },
+    { "name": "Dragon", "hp": 20, "str":10,"armor":2,"symbol": "D","acc": 10,"def": 8,"range" : 5, "exp": 25, "triggered": True },
+]
+
+free_tiles = ['.', '#', '+', '%']
 
 def get_distance(obj1,obj2):
     return (abs(obj2.x - obj1.x)+ abs(obj2.y - obj1.y))
@@ -35,9 +47,9 @@ class Hero:
             if (self.damage < 0):
                 self.damage = 1
             enemy.hp -= self.damage
-            self.combat_status = "you hit " + enemy.name + " [" + str(self.damage) + " damage]"
+            self.combat_status = "You hit " + enemy.name + " [" + str(self.damage) + " damage]"
         else:
-            self.combat_status = "you miss " + enemy.name
+            self.combat_status = "You miss " + enemy.name
         if (enemy.hp <= 0):
             self.combat_status += " | Defeated " + enemy.name
     
@@ -58,7 +70,7 @@ class Hero:
         if game.hero.hunger < 100 and not game.hero.weak:
             if game.title != "":
                 add_more(game)
-            game.title = "you feel weak"
+            game.title = "You feel weak"
             game.hero.str /= 2
             game.hero.weak = True
 
@@ -71,19 +83,6 @@ class Hero:
             if (self.x >= room.box['min_x'] and self.x <= room.box['max_x'] and self.y >= room.box['min_y'] and self.y <= room.box['max_y']):
                 return i
         return -1
-
-enemy_list = [
-    { "name": "Bat", "hp": 6, "str":2,"armor":0,"symbol": "B","acc": 4,"def": 8 , "range" : 3, "exp": 5, "triggered": False },
-    { "name": "Snake", "hp": 7, "str":3,"armor":0,"symbol": "S","acc": 6,"def": 7,"range" : 4, "exp": 6, "triggered": True  },
-    { "name": "Slime", "hp": 12, "str":2,"armor":0,"symbol": "O","acc": 4,"def": 6,"range" : 2, "exp": 6,"triggered": False },
-    { "name": "Kestrel", "hp": 9, "str":5,"armor":1,"symbol": "K","acc": 5,"def": 9,"range" : 3, "exp": 7, "triggered": True },
-    { "name": "Hobgobelin", "hp": 14, "str":6,"armor":2,"symbol": "H","acc": 5,"def": 9,"range" : 3, "exp": 8,"triggered": False },
-	{ "name": "Norminet", "hp": 24, "str":6,"armor":2,"symbol": "N","acc": 8,"def": 11,"range" : 0, "exp": 17, "triggered": False },
-    { "name": "Tortoise", "hp": 50, "str":1,"armor":4,"symbol": "T","acc": 4,"def": 15,"range" : 0, "exp": 1, "triggered": False },
-    { "name": "Dragon", "hp": 20, "str":10,"armor":2,"symbol": "D","acc": 10,"def": 8,"range" : 5, "exp": 25, "triggered": True },
-
-]
-free_tiles = ['.', '#', '+', '%']
 
 class Enemy:
     def __init__(self,x,y,lvl,index):
@@ -114,7 +113,7 @@ class Enemy:
             hero.hp -= self.damage
             self.combat_status = self.name + " hit you" + " [" + str(self.damage) + " damage]"
         else:
-            self.combat_status =  self.name + " miss you"
+            self.combat_status =  self.name + " missed you"
     
     def pursuit(self,hero):
         if get_distance(self,hero) < self.detection_range and self.can_see_hero == True:

@@ -3,45 +3,45 @@ import create_level
 
 
 food_list = [
-	"a mushroom",
-	"a couple of nuts",
-	"a rotten apple",
-	"a moldy sandwich",
-	"an egg"
+	"A mushroom",
+	"A couple of nuts",
+	"A rotten apple",
+	"A moldy sandwich",
+	"An egg"
 ]
 
 armor_list = [
-    { "name": "a piece of leather", "value": 1},
-    { "name": "a well-made leather suit", "value": 2},
-    { "name": "some metal scraps", "value": 3},
-    { "name": "a chainmail armor full of holes", "value": 5},
-    { "name": "a crumbling plate armor", "value": 7},
-    { "name": "a full body bronze suit", "value": 9}
+    { "name": "A piece of leather", "value": 1},
+    { "name": "A well-made leather suit", "value": 2},
+    { "name": "Some metal scraps", "value": 3},
+    { "name": "A chainmail armor full of holes", "value": 5},
+    { "name": "A crumbling plate armor", "value": 7},
+    { "name": "A full body bronze suit", "value": 9}
 ]
 
 weapon_list = [
-    { "name": "a piece of stone", "value": 1},
-    { "name": "a wooden sword", "value": 2},
-    { "name": "a couple of throwing knives", "value": 3},
-    { "name": "a rusty axe", "value": 5},
-    { "name": "a balanced katana", "value": 8},
-    { "name": "a holy greatsword", "value": 10},
+    { "name": "A piece of stone", "value": 1},
+    { "name": "A wooden sword", "value": 2},
+    { "name": "A couple of throwing knives", "value": 3},
+    { "name": "A rusty axe", "value": 5},
+    { "name": "A balanced katana", "value": 8},
+    { "name": "A holy greatsword", "value": 10},
 ]
 
 potion_list = [
-    { "name": "a simple red potion", "value": 1},
-    { "name": "a magic potion", "value": 2},
-    { "name": "a transparent potion", "value": 3},
-    { "name": "a lava's potion", "value": 4},
-    { "name": "a nice beer", "value": 5}, 
+    { "name": "A simple red potion", "value": 1},
+    { "name": "A magic potion", "value": 2},
+    { "name": "A transparent potion", "value": 3},
+    { "name": "A lava's potion", "value": 4},
+    { "name": "A nice beer", "value": 5}, 
 ]
 
 
 scroll_list = [
-	{ "name": "a piece of worthless paper", "value": 0},
-    { "name": "a map", "value": 1},
-    { "name": "a survival book", "value": 2},
-    { "name": "an ancient text about stone circles", "value": 3}
+    { "name": "A piece of worthless paper", "value": 0},
+    { "name": "A map", "value": 1},
+    { "name": "A survival book", "value": 2},
+    { "name": "An ancient text about stone circles", "value": 3}
 ]
 
 class Item:
@@ -105,15 +105,15 @@ class Scroll(Item):
 
 	def read_scroll(self, game):
 		if self.value == 0:
-			game.title = "nothing happens"
+			game.title = "Nothing happens"
 		elif self.value == 1:
 			game.hidden = [[False] * 80 for i in range(22)]
-			game.title = "suddenly you can see"
+			game.title = "Suddenly you can see"
 		elif self.value == 2:
 			game.hero.max_hunger += 100
-			game.title = "i feel already less hungry"
+			game.title = "I feel already less hungry"
 		elif self.value == 3:
 			create_level.create_level(game)
-			game.title = "finally, next level!"
+			game.title = "Finally, next level!"
 
 item_types = [Armor, Weapon, Potion, Scroll]

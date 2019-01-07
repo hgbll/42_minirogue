@@ -145,15 +145,15 @@ def run(stdscr):
         curses.start_color()
         curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
-        stdscr.clear()
-        stdscr.refresh()
-        stdscr.addstr(23, 0, "Rogue's name? ")
+#        stdscr.clear()
+#        stdscr.refresh()
+#        stdscr.addstr(23, 0, "Rogue's name? ")
 
-        curses.echo()
-        name = stdscr.getstr()
-        curses.noecho()
+#        curses.echo()
+#        name = stdscr.getstr()
+#        curses.noecho()
 
-        game = Game(stdscr, name)
+        game = Game(stdscr, "")
 
         create_level.create_level(game)
 

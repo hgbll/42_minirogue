@@ -48,10 +48,10 @@ def handle_item(game, item):
 
     if isinstance(item, objects.Treasure):
         game.gold += item.value
-        game.title = "you found {} gold pieces".format(item.value)
+        game.title = "You found {} gold pieces".format(item.value)
     else:
         game.hero.inventory.append(item)
-        game.title = "you picked up " + item.description
+        game.title = "You picked up : " + item.description
 
 def check_items(game):
 
