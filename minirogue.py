@@ -129,39 +129,52 @@ def other_keys(stdscr, key, game):
         return 0
     return 1
 
+def check_valid_screen_size(stdscr):
+
+    height,width = stdscr.getmaxyx()
+    if (height > 25 and width > 80):
+        return (True)
+    else:
+        return (False)
+
 def run(stdscr):
     key = 0
-    curses.start_color()
-    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
-    stdscr.clear()
-    stdscr.refresh()
-    stdscr.addstr(23, 0, "Rogue's name? ")
-    curses.echo()
-    name = stdscr.getstr()
-    curses.noecho()
+    if check_valid_screen_size(stdscr):
 
-    game = Game(stdscr, name)
+        curses.start_color()
+        curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
-    create_level.create_level(game)
+        stdscr.clear()
+        stdscr.refresh()
+        stdscr.addstr(23, 0, "Rogue's name? ")
 
-    stdscr.clear()
-    stdscr.refresh()
+        curses.echo()
+        name = stdscr.getstr()
+        curses.noecho()
 
-    while key != ord('Q') and not game.game_over:
-        if not other_keys(stdscr, key, game):
-            update.update(game, key)
-        draw.draw(stdscr, game)
+        game = Game(stdscr, name)
 
-        key = stdscr.getch()
-        game.title = ""
+        create_level.create_level(game)
 
-    if game.game_over:
-        while key != ord('Q') and key != ord('q'):
+        stdscr.clear()
+        stdscr.refresh()
+
+        while key != ord('Q') and not game.game_over:
+
+            if check_valid_screen_size(stdscr):    
+                if not other_keys(stdscr, key, game):
+                    update.update(game, key)
+                draw.draw(stdscr, game)
+
             key = stdscr.getch()
-    else:
-        draw.draw_end(stdscr, game)
+            game.title = ""
 
+        if game.game_over:
+            while key != ord('Q') and key != ord('q'):
+                key = stdscr.getch()
+        else:
+            draw.draw_end(stdscr, game)
 
 def main():
     curses.wrapper(run)
